@@ -13,15 +13,14 @@ export type ProductResponse = ContentResponse<ProductAttributes>;
 
 const Product = ({ product }: { product: ProductAttributes }) => {
   return (
-    <div>
-      <h1>{product.Name}</h1>
-      <p>{product.Active}</p>
-      <p>{product.Price}</p>
+    <div className="products-wrapper">
+      <h1 className="products-header">{product.Name}</h1>
+      <p className="products-active">{product.Active}</p>
+      <p className='products-price'>{product.Price}</p>
     </div>
   );
 }
 
-// Products page fetches products from the CMS and renders them as a list.
 const Products = ({ response }: { response: ProductResponse}) => {
   const products = useMemo(() => {
     return response?.data.map((product) => {
