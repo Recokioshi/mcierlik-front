@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { cmsFetch } from "../../utils/api/fetch";
-import { BaseAttributes, ContentResponse } from "../../utils/api/types/common";
+import { BaseAttributes, ContentResponse } from "../../utils/api/types/cms";
 
 export type ProductAttributes = BaseAttributes & {
   Name: string;
