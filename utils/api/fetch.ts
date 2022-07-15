@@ -1,5 +1,8 @@
+import { ContentResponse, SingleContentResponse } from "./types/cms";
+
 // wrap fetch with Bearer token
-export const cmsFetch = async (uri: string, options: RequestInit = {}) => {
+
+const baseCmsFetch = async <R>(uri: string, options: RequestInit = {}) => {
   const token = process.env.CMS_API_KEY;
   if (token) {
     options.headers = {
@@ -11,5 +14,13 @@ export const cmsFetch = async (uri: string, options: RequestInit = {}) => {
   if (!response.ok) {
     throw new Error(`${response.status} ${response.statusText}`);
   }
-  return response;
+  return await response.json() as R;
+}
+
+export const cmsFetch = async <T>(uri: string, options: RequestInit = {}) => {
+  return await baseCmsFetch<ContentResponse<T>>(uri, options);
+}
+
+export const cmsFetchSingle = async <T>(uri: string, options: RequestInit = {}) => {
+  return await baseCmsFetch<SingleContentResponse<T>>(uri, options);
 }
