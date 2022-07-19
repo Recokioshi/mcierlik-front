@@ -1,8 +1,9 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import Head from 'next/head';
-import { Navbar } from '../components/Navbar/Navbar'
-import { MantineProvider } from '@mantine/core';
+import { Navbar} from '../components/Navbar/Navbar'
+import { Footer } from '../components/Footer/Footer'
+import { AppShell, MantineProvider } from '@mantine/core';
 
 const navbarLinks = [
   { link: '/', label: 'Home' },
@@ -27,8 +28,19 @@ function MyApp({ Component, pageProps }: AppProps) {
           colorScheme: 'light',
         }}
       >
-        <Navbar links={navbarLinks}/>
-        <Component {...pageProps} />
+        <AppShell
+          padding="md"
+          header={<Navbar links={navbarLinks}/>}
+          footer={<Footer />}
+          styles={(theme) => ({
+            main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
+          })}
+          fixed
+        >
+          <Component {...pageProps} />
+        </AppShell>
+        
+        
       </MantineProvider>
     </>
   )
