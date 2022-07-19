@@ -1,12 +1,15 @@
+import { Space } from '@mantine/core';
 import type { NextPage } from 'next';
+import { FeaturesSection } from '../components/Home/FeaturesSection';
+import { HeroSection } from '../components/Home/HeroSection';
 
 const Home: NextPage = () => {
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
-    </div>
+    <>
+      <HeroSection />
+      <Space h="md" />
+      <FeaturesSection />
+    </>
   )
 }
 

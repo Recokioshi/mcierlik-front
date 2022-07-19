@@ -68,8 +68,10 @@ export function ArticleCard({
   return (
     <Card withBorder radius="md" className={cx(classes.card, className)} {...others}>
       <Card.Section>
-        <Link href={link}>
-          <Image src={image} height={512} width={512} alt="product photo" objectFit='cover'/>
+        <Link href={link} passHref>
+          <a>
+            <Image src={image} height={512} width={512} alt="product photo" objectFit='cover'/>
+          </a>
         </Link>
       </Card.Section>
 
