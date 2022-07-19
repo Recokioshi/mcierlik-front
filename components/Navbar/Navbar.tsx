@@ -1,13 +1,12 @@
 /* This example requires Tailwind CSS v2.0+ */
 import logo from '../../assets/images/logo.png'
-import React, { useMemo, useState } from 'react';
-import { createStyles, Header, Container, Group, Burger, Paper, Transition, Button } from '@mantine/core';
-import { useBooleanToggle } from '@mantine/hooks';
+import React, { useMemo } from 'react';
+import { createStyles, Header, Container, Group, Button } from '@mantine/core';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-const HEADER_HEIGHT = 60;
+const HEADER_HEIGHT = 80;
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -107,7 +106,7 @@ export function Navbar({ links }: HeaderResponsiveProps) {
   ));
 
   return (
-    <Header height={HEADER_HEIGHT} mb={120} className={classes.root}>
+    <Header height={HEADER_HEIGHT} className={classes.root}>
       <Container className={classes.header}>
         <Image
           className="h-8 w-auto sm:h-10"
