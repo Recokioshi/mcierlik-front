@@ -1,10 +1,11 @@
 /* This example requires Tailwind CSS v2.0+ */
 import logo from '../../assets/images/logo.png'
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { createStyles, Header, Container, Group, Burger, Paper, Transition, Button } from '@mantine/core';
 import { useBooleanToggle } from '@mantine/hooks';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 const HEADER_HEIGHT = 60;
 
@@ -85,22 +86,18 @@ interface HeaderResponsiveProps {
 }
 
 export function Navbar({ links }: HeaderResponsiveProps) {
-  const [opened, toggleOpened] = useBooleanToggle(false);
-  const [active, setActive] = useState(links[0].link);
+  const router = useRouter();
   const { classes, cx } = useStyles();
+
+  const active = useMemo(() => `/${router.pathname.split('/')[1]}`, [router.pathname]);
 
   const items = links.map((link) => (
     <Link
       key={link.label}
       href={link.link}
-      passHref
     >
       <Button 
         className={cx(classes.link, { [classes.linkActive]: active === link.link })}
-        onClick={() => {
-          setActive(link.link);
-          toggleOpened(false);
-        }}
         variant="subtle"
       >
         {link.label}
@@ -112,35 +109,16 @@ export function Navbar({ links }: HeaderResponsiveProps) {
   return (
     <Header height={HEADER_HEIGHT} mb={120} className={classes.root}>
       <Container className={classes.header}>
-        <Link href="/">
-          <div>
-            <Image
-              className="h-8 w-auto sm:h-10 cursor-pointer"
-              src={logo}
-              alt="logo"
-              width={48}
-              height={48}
-            />
-          </div>
-        </Link>
+        <Image
+          className="h-8 w-auto sm:h-10"
+          src={logo}
+          alt="logo"
+          width={48}
+          height={48}
+        />
         <Group spacing={5} className={classes.links}>
           {items}
         </Group>
-
-        <Burger
-          opened={opened}
-          onClick={() => toggleOpened()}
-          className={classes.burger}
-          size="sm"
-        />
-
-        <Transition transition="pop-top-right" duration={200} mounted={opened}>
-          {(styles) => (
-            <Paper className={classes.dropdown} withBorder style={styles}>
-              {items}
-            </Paper>
-          )}
-        </Transition>
       </Container>
     </Header>
   );
