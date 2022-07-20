@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bookmark, GitPullRequestDraft, Heart, Share } from 'tabler-icons-react';
+import { Bookmark, Heart, Share } from 'tabler-icons-react';
 import {
   Card,
   Text,
@@ -107,9 +107,9 @@ export function ArticleCard({
 const Products = ({ productsResponse }: { productsResponse: ProductResponse | null}) => {
   const products = productsResponse?.data || [];
   return (
-    <Grid justify="center">
+    <Grid justify="center" align="center">
       {[...products].map(({ attributes: product, id }) => (
-        <Grid.Col key={id} span={3}>
+        <Grid.Col key={id} md={6} lg={3} span={7}>
           <ArticleCard
             image={product.photo?.data?.attributes?.url || ''}
             link={`/products/${id}`}

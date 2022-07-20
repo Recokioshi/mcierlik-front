@@ -30,8 +30,13 @@ const useStyles = createStyles((theme) => ({
   inner: {
     display: 'flex',
     justifyContent: 'space-between',
-    paddingTop: theme.spacing.xl * 4,
-    paddingBottom: theme.spacing.xl * 4,
+    paddingTop: theme.spacing.xl,
+    paddingBottom: theme.spacing.xl,
+
+    [theme.fn.smallerThan('md')]: {
+      flexDirection: 'column-reverse',
+      gap: theme.spacing.xl * 2,
+    },
   },
 
   content: {
@@ -87,7 +92,6 @@ export function Product({ product }: { product: ProductAttributes | null}) {
   const productDescription = (product?.fullDescription || "").slice(0, MAX_DESCRIPTION_LENGTH);
   const photo = product?.photo?.data?.attributes;
   return (
-    <div>
       <Container>
         <div className={classes.inner}>
           <div className={classes.content}>
@@ -145,7 +149,6 @@ export function Product({ product }: { product: ProductAttributes | null}) {
             />
         </div>
       </Container>
-    </div>
   );
 }
 
