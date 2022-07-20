@@ -1,10 +1,11 @@
 /* This example requires Tailwind CSS v2.0+ */
 import logo from '../../assets/images/logo.png'
 import React, { useMemo } from 'react';
-import { createStyles, Header, Container, Group, Button } from '@mantine/core';
+import { createStyles, Header, Container, Group, Button, Burger, Transition, Paper } from '@mantine/core';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useBooleanToggle } from '@mantine/hooks';
 
 const HEADER_HEIGHT = 80;
 
@@ -58,6 +59,7 @@ const useStyles = createStyles((theme) => ({
     color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
     fontSize: theme.fontSizes.sm,
     fontWeight: 500,
+    cursor: 'pointer',
 
     '&:hover': {
       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
@@ -85,6 +87,7 @@ interface HeaderResponsiveProps {
 }
 
 export function Navbar({ links }: HeaderResponsiveProps) {
+  const [opened, toggleOpened] = useBooleanToggle(false);
   const router = useRouter();
   const { classes, cx } = useStyles();
 
@@ -95,12 +98,14 @@ export function Navbar({ links }: HeaderResponsiveProps) {
       key={link.label}
       href={link.link}
     >
-      <Button 
+      <div 
         className={cx(classes.link, { [classes.linkActive]: active === link.link })}
-        variant="subtle"
+        onClick={() => {
+          toggleOpened(false);
+        }}
       >
         {link.label}
-      </Button>
+      </div>
       
     </Link>
   ));
@@ -118,6 +123,21 @@ export function Navbar({ links }: HeaderResponsiveProps) {
         <Group spacing={5} className={classes.links}>
           {items}
         </Group>
+
+        <Burger
+          opened={opened}
+          onClick={() => toggleOpened()}
+          className={classes.burger}
+          size="sm"
+        />
+
+        <Transition transition="pop-top-right" duration={200} mounted={opened}>
+          {(styles) => (
+            <Paper className={classes.dropdown} withBorder style={styles}>
+              {items}
+            </Paper>
+          )}
+        </Transition>
       </Container>
     </Header>
   );
