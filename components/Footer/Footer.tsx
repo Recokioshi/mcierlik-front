@@ -1,8 +1,13 @@
 import React from 'react';
 import { createStyles, Container, Group, ActionIcon, Footer as FooterWrapper } from '@mantine/core';
-import { BrandTwitter, BrandYoutube, BrandInstagram } from 'tabler-icons-react';
+import { BrandYoutube, BrandFacebook } from 'tabler-icons-react';
 import Image from 'next/image';
 import logo from '../../assets/images/logo.png'
+
+const hrefs = {
+  youtube: 'https://www.youtube.com/channel/UCnybCIBv3RFW5SxFKb2rt6Q',
+  facebook: 'https://www.facebook.com/people/Mariusz-Cierlik/100063744151193/',
+}
 
 const useStyles = createStyles(() => ({
   inner: {
@@ -26,14 +31,11 @@ export function Footer({ footerHeight }: { footerHeight: number }) {
           height={32}
         />
         <Group spacing={0} position="right" noWrap>
-          <ActionIcon size="lg">
-            <BrandTwitter size={18} />
+          <ActionIcon<'a'> size="lg" component="a" href={hrefs.facebook}>
+            <BrandFacebook size={18} href={hrefs.facebook}/>
           </ActionIcon>
-          <ActionIcon size="lg">
-            <BrandYoutube size={18} />
-          </ActionIcon>
-          <ActionIcon size="lg">
-            <BrandInstagram size={18} />
+          <ActionIcon<'a'> size="lg" component="a" href={hrefs.youtube}>
+            <BrandYoutube size={18}/>
           </ActionIcon>
         </Group>
       </Container>
