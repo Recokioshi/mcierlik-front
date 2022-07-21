@@ -131,7 +131,7 @@ export function Navbar({ links }: HeaderResponsiveProps) {
           size="sm"
         />
 
-        <Transition transition="pop-top-right" duration={200} mounted={opened}>
+        <Transition transition="pop-top-right" duration={50} mounted={opened}>
           {(styles) => (
             <Paper className={classes.dropdown} withBorder style={styles}>
               {items}

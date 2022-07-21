@@ -1,4 +1,4 @@
-import { Button, Container, createStyles, Space, Text, useMantineTheme } from "@mantine/core";
+import { Box, Button, Container, createStyles, Space, Text, useMantineTheme } from "@mantine/core";
 import { useMemo, useRef } from "react";
 import { useMediaQueryForBeakpoint } from "../../../utils/styling";
 import { CarouselCard, CarouselCardProps } from "./CarouselCard";
@@ -81,6 +81,8 @@ const Carousel: React.FC<CarouselProps> = ({ cards }) => {
   const itemWidth = useMemo(() => carouselRef.current ? carouselRef.current.clientWidth / maxItems : 0,
     [maxItems]);
 
+  const shouldShowButtons = useMemo(() => cards.length > maxItems, [cards, maxItems]);
+
   const onScrollClick = useMemo(() => (direction: "left" | "right") => 
     () => scrollByWithPeriod(carouselRef.current!, itemWidth, direction)
   , [itemWidth]);
@@ -91,20 +93,25 @@ const Carousel: React.FC<CarouselProps> = ({ cards }) => {
         {`CHECK OUT OUR LATEST PRODUCT${cards.length > 1 ? "S" : ""}`}
       </Text>
       <Space h="lg" />
-      <div className={classes.flexCarousel} ref={carouselRef} >
+      <Box className={classes.flexCarousel} sx={{justifyContent: shouldShowButtons ? 'flex-start' : 'center'}} ref={carouselRef} >
         {cards.map((card, index) => (
           <div key={`${card.title}${index}`} className={classes.cardWrapper}>
             <CarouselCard {...card} />
           </div>
         ))}
-      </div>
+      </Box>
       <Space h="lg" />
-      <Button variant="outline" color="gray" compact className={classes.buttonLeft} onClick={onScrollClick('left')}>
-        {`<`}
-      </Button>
-      <Button variant="outline" color="gray" compact className={classes.buttonRight} onClick={onScrollClick('right')}>
-        {`>`}
-      </Button>
+      {shouldShowButtons && (
+        <>
+          <Button variant="outline" color="gray" compact className={classes.buttonLeft} onClick={onScrollClick('left')}>
+            {`<`}
+          </Button>
+          <Button variant="outline" color="gray" compact className={classes.buttonRight} onClick={onScrollClick('right')}>
+            {`>`}
+          </Button>
+        </>
+      )}
+      
     </Container>
   );
 }
