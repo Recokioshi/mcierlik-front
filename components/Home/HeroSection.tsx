@@ -119,7 +119,7 @@ export function HeroSection() {
                 className={classes.control}
                 mt={40}
               >
-                Show products
+                Show all products
               </Button>
             </Link>
           </div>

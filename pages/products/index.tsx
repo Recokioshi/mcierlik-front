@@ -108,8 +108,8 @@ const Products = ({ productsResponse }: { productsResponse: ProductResponse | nu
   const products = productsResponse?.data || [];
   return (
     <Grid justify="center" align="center">
-      {[...products].map(({ attributes: product, id }) => (
-        <Grid.Col key={id} md={6} lg={3} span={7}>
+      {products.map(({ attributes: product, id }) => (
+        <Grid.Col key={id} md={4} lg={3} sm={6} xs={8}>
           <ArticleCard
             image={product.photo?.data?.attributes?.url || ''}
             link={`/products/${id}`}
