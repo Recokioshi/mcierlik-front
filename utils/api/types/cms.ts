@@ -56,20 +56,28 @@ export type User = BaseAttributes & {
   preferedLanguage:	string,
 }
 
-export type Photo = BaseAttributes & {
+type BasePhoto = {
   name: string,
-  alternativeText: string,
-  caption: string,
   width: number,
   height: number,
-  formats: {},
   hash: string,
   ext: string,
   mime: string,
   size: number,
   url: string,
+  provider_metadata: {},
+}
+
+export type Photo = BaseAttributes & BasePhoto & {
+  alternativeText: string,
+  caption: string,
+  formats: {
+    thumbnail: BasePhoto,
+    small: BasePhoto,
+    medium: BasePhoto,
+    large: BasePhoto,
+  },
   previewUrl: string,
   provider: string,
-  provider_metadata: {},
   relate: {},
 }

@@ -51,6 +51,7 @@ interface ArticleCardProps {
   title: string;
   description: string;
   rating: string;
+  blurUrl?: string;
 }
 
 export function ArticleCard({
@@ -60,6 +61,7 @@ export function ArticleCard({
   title,
   description,
   rating,
+  blurUrl,
   ...others
 }: ArticleCardProps & Omit<React.ComponentPropsWithoutRef<'div'>, keyof ArticleCardProps>) {
   const { classes, cx } = useStyles();
@@ -70,7 +72,7 @@ export function ArticleCard({
       <Card.Section>
         <Link href={link} passHref>
           <a>
-            <Image src={image} height={512} width={512} alt="product photo" objectFit='cover'/>
+            <Image src={image} height={512} width={512} alt="product photo" objectFit='cover' placeholder={blurUrl ? 'blur' : 'empty'} blurDataURL={blurUrl}/>
           </a>
         </Link>
       </Card.Section>
@@ -111,11 +113,12 @@ const Products = ({ productsResponse }: { productsResponse: ProductResponse | nu
       {products.map(({ attributes: product, id }) => (
         <Grid.Col key={id} md={4} lg={3} sm={6} xs={8}>
           <ArticleCard
-            image={product.photo?.data?.attributes?.url || ''}
+            image={product.photo?.data?.attributes?.formats.medium.url || ''}
             link={`/products/${id}`}
             title={product.name}
             description={product.shortDescription}
             rating={"new"}
+            blurUrl={product.photo?.data?.attributes?.formats.thumbnail.url}
           />
         </Grid.Col>
       ))}

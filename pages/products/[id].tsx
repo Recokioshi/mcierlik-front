@@ -152,12 +152,14 @@ export function Product({ product }: { product: ProductAttributes | null}) {
             <Skeleton sx={{ display: loading ? 'block' : 'none' }} height={480} width={480}/>
             <Box sx={{ display: loading ? 'none' : 'block' }}>
               <Image 
-                src={photo?.url || ''}
+                src={photo?.formats.large.url || ''}
                 alt={photo?.caption || ''}
                 width={480}
                 height={480}
                 objectFit="cover"
                 onLoad={onLoad}
+                placeholder='blur'
+                blurDataURL={photo?.formats.thumbnail.url || ''}
               />
             </Box>
           </Box>
