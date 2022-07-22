@@ -11,8 +11,8 @@ import {
   Grid,
 } from '@mantine/core';
 import { ProductResponse, getProducts } from '../../utils/api/products';
-import Image from 'next/image';
 import Link from 'next/link';
+import { ImageWithSkeleton } from '../../components/Common/ImageWithSkeleton';
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -70,7 +70,7 @@ export function ArticleCard({
       <Card.Section>
         <Link href={link} passHref>
           <a>
-            <Image src={image} height={512} width={512} alt="product photo" objectFit='cover'/>
+            <ImageWithSkeleton url={image} height={512} width={512} alt="product photo" />
           </a>
         </Link>
       </Card.Section>
