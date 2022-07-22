@@ -75,7 +75,7 @@ export function CarouselCard({ image, title, link }: CarouselCardProps) {
     <Link href={link}>
       <Card
         p="lg"
-        shadow="lg"
+        shadow="sm"
         className={classes.card}
         radius="md"    
       >
