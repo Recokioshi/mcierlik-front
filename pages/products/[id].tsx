@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   createStyles,
   Container,
@@ -8,8 +8,9 @@ import {
   Text,
   List,
   ThemeIcon,
-  Spoiler,
   Popover,
+  Skeleton,
+  Box,
 } from '@mantine/core';
 import { Check } from 'tabler-icons-react';
 import { getProduct, getProducts } from '../../utils/api/products';
@@ -28,6 +29,7 @@ const features = [
 
 const useStyles = createStyles((theme) => ({
   inner: {
+    position: 'relative',
     display: 'flex',
     justifyContent: 'space-between',
     paddingTop: theme.spacing.xl,
@@ -40,8 +42,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   content: {
-    maxWidth: 480,
-    marginRight: theme.spacing.xl * 3,
+    maxWidth: '50%',
 
     [theme.fn.smallerThan('md')]: {
       maxWidth: '100%',
@@ -89,8 +90,15 @@ const useStyles = createStyles((theme) => ({
 export function Product({ product }: { product: ProductAttributes | null}) {
   const { classes } = useStyles();
   const [opened, setOpened] = useState(false);
+  const [loading, setLoading] = useState(true);
   const productDescription = (product?.fullDescription || "").slice(0, MAX_DESCRIPTION_LENGTH);
   const photo = product?.photo?.data?.attributes;
+
+  const onLoad = useCallback(() => {
+    setLoading(false);
+  }, []);
+
+  console.log(loading);
   return (
       <Container>
         <div className={classes.inner}>
@@ -140,13 +148,19 @@ export function Product({ product }: { product: ProductAttributes | null}) {
               </Button>
             </Group>
           </div>
-          <Image
-            src={photo?.url || ''}
-            alt={photo?.caption || ''}
-            width={photo?.width || ''}
-            height={photo?.height || ''}
-            objectFit="cover"
-            />
+          <Box>
+            <Skeleton sx={{ display: loading ? 'block' : 'none' }} height={480} width={480}/>
+            <Box sx={{ display: loading ? 'none' : 'block' }}>
+              <Image 
+                src={photo?.url || ''}
+                alt={photo?.caption || ''}
+                width={480}
+                height={480}
+                objectFit="cover"
+                onLoad={onLoad}
+              />
+            </Box>
+          </Box>
         </div>
       </Container>
   );

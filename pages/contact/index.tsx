@@ -8,11 +8,11 @@ import {
   Textarea,
   Button,
   Group,
-  ActionIcon,
   Container,
+  Space,
 } from '@mantine/core';
-import { BrandTwitter, BrandYoutube, BrandInstagram } from 'tabler-icons-react';
 import { ContactIconsList } from '../../components/Contact/ContactIconsList';
+import { SocialMediaLinks } from '../../components/SocialMediaLinks';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -78,16 +78,8 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const social = [BrandTwitter, BrandYoutube, BrandInstagram];
-
 function ContactUs() {
   const { classes } = useStyles();
-
-  const icons = social.map((Icon, index) => (
-    <ActionIcon key={index} size={28} className={classes.social} variant="transparent">
-      <Icon size={22} />
-    </ActionIcon>
-  ));
 
   return (
     <Container mt={30} mb={30} size="lg">
@@ -101,7 +93,8 @@ function ContactUs() {
 
             <ContactIconsList variant="white" />
 
-            <Group mt="xl">{icons}</Group>
+            <Space h='lg' />
+            <SocialMediaLinks iconClassName={classes.social}/>
           </div>
           <div className={classes.form}>
             <TextInput

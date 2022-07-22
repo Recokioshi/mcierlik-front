@@ -79,10 +79,10 @@ interface ContactIconsListProps {
 }
 
 const MOCKDATA = [
-  { title: 'Email', description: 'hello@mantine.dev', icon: At },
-  { title: 'Phone', description: '+49 (800) 335 35 35', icon: Phone },
-  { title: 'Address', description: '844 Morris Park avenue', icon: MapPin },
-  { title: 'Working hours', description: '8 a.m. – 11 p.m.', icon: Sun },
+  { title: 'Email', description: 'snahonet@o2.pl', icon: At },
+  { title: 'Phone', description: '+48 662 266 686', icon: Phone },
+  { title: 'Address', description: '02826 Sachsen - Görlitz', icon: MapPin },
+  { title: 'Working hours', description: '4 p.m. – 9 p.m.', icon: Sun },
 ];
 
 export function ContactIconsList({ data = MOCKDATA, variant }: ContactIconsListProps) {
