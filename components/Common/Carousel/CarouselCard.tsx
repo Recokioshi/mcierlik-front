@@ -71,8 +71,7 @@ export interface CarouselCardProps {
 }
 
 export function CarouselCard({ photo, title, link }: CarouselCardProps) {
-  const { classes, theme } = useStyles();
-  console.log(photo);
+  const { classes } = useStyles();
 
   return (
     <Link href={link}>
