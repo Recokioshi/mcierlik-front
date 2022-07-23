@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStyles, Container, Footer as FooterWrapper } from '@mantine/core';
 import Image from 'next/image';
-import logo from '../../assets/images/logo.png'
+import logo from '../../assets/images/logo-inverted.png'
 import { SocialMediaLinks } from '../SocialMediaLinks';
 
 const useStyles = createStyles(() => ({
