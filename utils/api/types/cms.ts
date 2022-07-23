@@ -71,11 +71,11 @@ type BasePhoto = {
 export type Photo = BaseAttributes & BasePhoto & {
   alternativeText: string,
   caption: string,
-  formats: {
-    thumbnail: BasePhoto,
-    small: BasePhoto,
-    medium: BasePhoto,
-    large: BasePhoto,
+  formats?: {
+    thumbnail?: BasePhoto,
+    small?: BasePhoto,
+    medium?: BasePhoto,
+    large?: BasePhoto,
   },
   previewUrl: string,
   provider: string,

@@ -1,5 +1,5 @@
 /* This example requires Tailwind CSS v2.0+ */
-import logo from '../../assets/images/logo.png'
+import logo from '../../assets/images/logo-inverted.png'
 import React, { useMemo } from 'react';
 import { createStyles, Header, Container, Group, Button, Burger, Transition, Paper } from '@mantine/core';
 import Link from 'next/link';
