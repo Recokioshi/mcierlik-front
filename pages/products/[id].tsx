@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
+import Image from 'next/image';
 import {
   createStyles,
   Container,
@@ -9,13 +10,12 @@ import {
   List,
   ThemeIcon,
   Popover,
-  Skeleton,
   Box,
 } from '@mantine/core';
 import { Check } from 'tabler-icons-react';
 import { getProduct, getProducts } from '../../utils/api/products';
-import Image from 'next/image';
 import { ProductAttributes } from '../../utils/api/types/cms';
+import { StrapiPhoto } from '../../components/Common/StrapiPhoto';
 
 const MAX_DESCRIPTION_LENGTH = 250;
 
@@ -90,15 +90,9 @@ const useStyles = createStyles((theme) => ({
 export function Product({ product }: { product: ProductAttributes | null}) {
   const { classes } = useStyles();
   const [opened, setOpened] = useState(false);
-  const [loading, setLoading] = useState(true);
   const productDescription = (product?.fullDescription || "").slice(0, MAX_DESCRIPTION_LENGTH);
   const photo = product?.photo?.data?.attributes;
 
-  const onLoad = useCallback(() => {
-    setLoading(false);
-  }, []);
-
-  console.log(loading);
   return (
       <Container>
         <div className={classes.inner}>
@@ -148,20 +142,12 @@ export function Product({ product }: { product: ProductAttributes | null}) {
               </Button>
             </Group>
           </div>
-          <Box>
-            <Skeleton sx={{ display: loading ? 'block' : 'none' }} height={480} width={480}/>
-            <Box sx={{ display: loading ? 'none' : 'block' }}>
-              <Image 
-                src={photo?.formats.large.url || ''}
-                alt={photo?.caption || ''}
-                width={480}
-                height={480}
-                objectFit="cover"
-                onLoad={onLoad}
-                placeholder='blur'
-                blurDataURL={photo?.formats.thumbnail.url || ''}
-              />
-            </Box>
+          <Box sx={{ width: '100%'}}>
+            {photo && <StrapiPhoto 
+              photo={photo}
+              width={480}
+              height={480}
+            />}
           </Box>
         </div>
       </Container>
