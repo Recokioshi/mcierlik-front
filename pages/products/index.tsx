@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { Bookmark, Heart, Share } from 'tabler-icons-react';
 import {
   Card,
@@ -12,7 +13,8 @@ import {
 } from '@mantine/core';
 import { ProductResponse, getProducts } from '../../utils/api/products';
 import Link from 'next/link';
-import { ImageWithSkeleton } from '../../components/Common/ImageWithSkeleton';
+import { Photo } from '../../utils/api/types/cms';
+import { StrapiPhoto } from '../../components/Common/StrapiPhoto';
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -46,7 +48,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface ArticleCardProps {
-  image: string;
+  photo: Photo
   link: string;
   title: string;
   description: string;
@@ -55,7 +57,7 @@ interface ArticleCardProps {
 
 export function ArticleCard({
   className,
-  image,
+  photo,
   link,
   title,
   description,
@@ -70,7 +72,7 @@ export function ArticleCard({
       <Card.Section>
         <Link href={link} passHref>
           <a>
-            <ImageWithSkeleton url={image} height={512} width={512} alt="product photo" />
+            <StrapiPhoto photo={photo} height={512} width={512} />
           </a>
         </Link>
       </Card.Section>
@@ -111,7 +113,7 @@ const Products = ({ productsResponse }: { productsResponse: ProductResponse | nu
       {products.map(({ attributes: product, id }) => (
         <Grid.Col key={id} md={4} lg={3} sm={6} xs={8}>
           <ArticleCard
-            image={product.photo?.data?.attributes?.url || ''}
+            photo={product.photo.data.attributes}
             link={`/products/${id}`}
             title={product.name}
             description={product.shortDescription}

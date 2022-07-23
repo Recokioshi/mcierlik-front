@@ -5,10 +5,10 @@ export const ProductsCarousel = ({ products }: { products: BData<ProductAttribut
   return (
     <Carousel
       cards={products.map(({ attributes: product, id }) => ({
-        image: product.photo?.data?.attributes?.url || '',
         title: product.name,
         description: product.shortDescription,
         link: `/products/${id}`,
+        photo: product.photo.data.attributes,
       }))}
     />
   );

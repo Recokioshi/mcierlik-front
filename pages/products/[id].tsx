@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Image from 'next/image';
 import {
   createStyles,
   Container,
@@ -9,11 +10,12 @@ import {
   List,
   ThemeIcon,
   Popover,
+  Box,
 } from '@mantine/core';
 import { Check } from 'tabler-icons-react';
 import { getProduct, getProducts } from '../../utils/api/products';
 import { ProductAttributes } from '../../utils/api/types/cms';
-import { ImageWithSkeleton } from '../../components/Common/ImageWithSkeleton';
+import { StrapiPhoto } from '../../components/Common/StrapiPhoto';
 
 const MAX_DESCRIPTION_LENGTH = 250;
 
@@ -140,12 +142,13 @@ export function Product({ product }: { product: ProductAttributes | null}) {
               </Button>
             </Group>
           </div>
-          <ImageWithSkeleton
-            url={photo?.url || ''}
-            alt={photo?.caption || ''}
-            width={480}
-            height={480}
-          />
+          <Box sx={{ width: '100%'}}>
+            {photo && <StrapiPhoto 
+              photo={photo}
+              width={480}
+              height={480}
+            />}
+          </Box>
         </div>
       </Container>
   );

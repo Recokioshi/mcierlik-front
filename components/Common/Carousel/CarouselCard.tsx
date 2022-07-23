@@ -1,6 +1,8 @@
 import React from 'react';
 import { Card, Text, createStyles } from '@mantine/core';
 import Link from 'next/link';
+import { Photo } from '../../../utils/api/types/cms';
+import { StrapiPhoto } from '../StrapiPhoto';
 
 const useStyles = createStyles((theme, _params, getRef) => {
   const image = getRef('image');
@@ -64,12 +66,13 @@ const useStyles = createStyles((theme, _params, getRef) => {
 
 export interface CarouselCardProps {
   link: string;
-  image: string;
+  photo: Photo;
   title: string;
 }
 
-export function CarouselCard({ image, title, link }: CarouselCardProps) {
+export function CarouselCard({ photo, title, link }: CarouselCardProps) {
   const { classes, theme } = useStyles();
+  console.log(photo);
 
   return (
     <Link href={link}>
@@ -79,7 +82,7 @@ export function CarouselCard({ image, title, link }: CarouselCardProps) {
         className={classes.card}
         radius="md"    
       >
-        <div className={classes.image} style={{ backgroundImage: `url(${image})` }} />
+        <StrapiPhoto photo={photo} height={512} width={512} isBackground />
         <div className={classes.overlay} />
 
         <div className={classes.content}>
