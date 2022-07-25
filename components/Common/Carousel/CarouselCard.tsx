@@ -68,17 +68,18 @@ export interface CarouselCardProps {
   link?: string;
   photo: Photo;
   title?: string;
-  onClick?: () => void;
+  id: string;
+  onClick?: (id: string) => void;
 }
 
-export function CarouselCard({ photo, title, link, onClick }: CarouselCardProps) {
+export function CarouselCard({ photo, title, link, onClick, id }: CarouselCardProps) {
   const { classes } = useStyles();
 
   const handleClick = useCallback(() => {
     if (onClick) {
-      onClick();
+      onClick(id);
     }
-  }, [onClick]);
+  }, [id, onClick]);
   
   const CardContent = (
     <Card

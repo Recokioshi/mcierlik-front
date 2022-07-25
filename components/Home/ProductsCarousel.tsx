@@ -10,6 +10,7 @@ export const ProductsCarousel = ({ products }: { products: Product[]}) => {
       description: shortDescription,
       link: `/products/${id}`,
       photo: photo,
+      id,
     })), [products]);
 
   return (

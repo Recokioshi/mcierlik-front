@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   createStyles,
   Container,
@@ -85,12 +85,26 @@ export function Product({ product }: { product: Product | null}) {
   const { classes } = useStyles();
   const [opened, setOpened] = useState(false);
   const productDescription = (product?.fullDescription || "").slice(0, MAX_DESCRIPTION_LENGTH);
-  const photo = product?.photo
-  const gallery = useMemo(() => product?.gallery || [], [product]);
+  const [selectedPhoto, setSelectedPhoto] = useState(product?.photo);
+  const gallery = useMemo(() => {
+    const baseArray = [...(product?.gallery || [])];
+    return product?.photo ? [product.photo, ...baseArray] : baseArray;
+  }, [product?.photo, product?.gallery]);
+
+  const onPhotoClick = useCallback((id: string) => {
+    const photoFound = gallery.find((photo) => photo.id === id);
+    if (photoFound) {
+      setSelectedPhoto(photoFound);
+    };
+  }, [gallery]);
+
+  const getOnPhotoClick = useCallback((id: string) => () => {
+    onPhotoClick(id);
+  }, [onPhotoClick]);
 
   const galleryPhotos = useMemo(() => {
     return (gallery).map((photo) => (
-      <Grid.Col key={photo.hash} md={4} lg={3} xl={2}>
+      <Grid.Col key={photo.hash} md={4} lg={3} xl={2} onClick={getOnPhotoClick(photo.id)}>
         <StrapiPhoto
           photo={photo}
           width={200}
@@ -98,7 +112,7 @@ export function Product({ product }: { product: Product | null}) {
         />
       </Grid.Col>
     ))
-  }, [gallery]);
+  }, [gallery, getOnPhotoClick]);
 
   return (
       <Container>
@@ -158,8 +172,8 @@ export function Product({ product }: { product: Product | null}) {
             </Group>
           </div>
           <Box sx={{ width: '100%'}}>
-            {photo && <StrapiPhoto 
-              photo={photo}
+            {selectedPhoto && <StrapiPhoto 
+              photo={selectedPhoto}
               width={480}
               height={480}
             />}
@@ -168,7 +182,7 @@ export function Product({ product }: { product: Product | null}) {
               styles={{ display: 'none', backgroundColor: 'red' }}
             >
               <Box>
-                <GalleryCarousel gallery={gallery} />
+                <GalleryCarousel gallery={gallery} onClick={onPhotoClick} />
               </Box>
             </MediaQuery>
           </Box>
