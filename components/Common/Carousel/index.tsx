@@ -114,11 +114,7 @@ const Carousel: React.FC<CarouselProps> = ({ cards }) => {
   }, [cancel]);
 
   return (
-    <Container className={classes.container}>
-      <Text size="xl" color="primary" align="center">
-        {`CHECK OUT OUR LATEST PRODUCT${cards.length > 1 ? "S" : ""}`}
-      </Text>
-      <Space h="lg" />
+    <Box className={classes.container}>
       <Box
         className={classes.flexCarousel}
         sx={{justifyContent: shouldShowButtons ? 'flex-start' : 'center'}}
@@ -144,7 +140,7 @@ const Carousel: React.FC<CarouselProps> = ({ cards }) => {
           </Button>
         </>
       )}
-    </Container>
+    </Box>
   );
 }
 

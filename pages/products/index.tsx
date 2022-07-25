@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import { Bookmark, Heart, Share } from 'tabler-icons-react';
 import {
   Card,
@@ -11,9 +10,9 @@ import {
   createStyles,
   Grid,
 } from '@mantine/core';
-import { ProductResponse, getProducts } from '../../utils/api/products';
+import { getProducts } from '../../utils/api/products';
 import Link from 'next/link';
-import { Photo } from '../../utils/api/types/cms';
+import { Photo, Product } from '../../utils/api/types/cms';
 import { StrapiPhoto } from '../../components/Common/StrapiPhoto';
 
 const useStyles = createStyles((theme) => ({
@@ -106,17 +105,16 @@ export function ArticleCard({
   );
 }
 
-const Products = ({ productsResponse }: { productsResponse: ProductResponse | null}) => {
-  const products = productsResponse?.data || [];
+const Products = ({ products }: { products: Product[]}) => {
   return (
     <Grid justify="center" align="center">
-      {products.map(({ attributes: product, id }) => (
+      {products.map(({ photo, name, shortDescription, id }) => (
         <Grid.Col key={id} md={4} lg={3} sm={6} xs={8}>
           <ArticleCard
-            photo={product.photo.data.attributes}
+            photo={photo}
             link={`/products/${id}`}
-            title={product.name}
-            description={product.shortDescription}
+            title={name}
+            description={shortDescription}
             rating={"new"}
           />
         </Grid.Col>
@@ -126,10 +124,10 @@ const Products = ({ productsResponse }: { productsResponse: ProductResponse | nu
 }
 
 export async function getStaticProps() {
-  const productsResponse = await getProducts();
+  const products = await getProducts();
   return {
     props: {
-      productsResponse
+      products
     }
   };
 }

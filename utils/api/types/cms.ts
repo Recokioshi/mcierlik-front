@@ -1,3 +1,5 @@
+import { Color } from "./common";
+
 export type BData<T> = {
   id: string;
   attributes: T;
@@ -33,10 +35,19 @@ export type ProductAttributes = BaseAttributes & {
   isActive: boolean,
   saleFrom: string,
   price: number,
-  photo: SingleContentResponse<Photo>,
+  photo: SingleContentResponse<PhotoAttributes>,
+  gallery: ContentResponse<PhotoAttributes>,
+  features: string[],
+  colors: Record<string, Color>,
   shortDescription: string,
   fullDescription: string,
 };
+
+export type Product = Omit<ProductAttributes, 'photo' | 'gallery'> & {
+  id: BData<ProductAttributes>['id'],
+  photo: Photo,
+  gallery: Photo[],
+}
 
 export type Role = {
 }
@@ -68,7 +79,7 @@ type BasePhoto = {
   provider_metadata: {},
 }
 
-export type Photo = BaseAttributes & BasePhoto & {
+export type PhotoAttributes = BaseAttributes & BasePhoto & {
   alternativeText: string,
   caption: string,
   formats?: {
@@ -80,4 +91,8 @@ export type Photo = BaseAttributes & BasePhoto & {
   previewUrl: string,
   provider: string,
   relate: {},
+}
+
+export type Photo = PhotoAttributes & {
+  id: BData<PhotoAttributes>['id'],
 }

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Card, Text, createStyles } from '@mantine/core';
+import React, { useCallback } from 'react';
+import { Card, Text, createStyles, Box } from '@mantine/core';
 import Link from 'next/link';
 import { Photo } from '../../../utils/api/types/cms';
 import { StrapiPhoto } from '../StrapiPhoto';
@@ -65,33 +65,49 @@ const useStyles = createStyles((theme, _params, getRef) => {
 });
 
 export interface CarouselCardProps {
-  link: string;
+  link?: string;
   photo: Photo;
-  title: string;
+  title?: string;
+  onClick?: () => void;
 }
 
-export function CarouselCard({ photo, title, link }: CarouselCardProps) {
+export function CarouselCard({ photo, title, link, onClick }: CarouselCardProps) {
   const { classes } = useStyles();
 
-  return (
-    <Link href={link}>
-      <Card
+  const handleClick = useCallback(() => {
+    if (onClick) {
+      onClick();
+    }
+  }, [onClick]);
+  
+  const CardContent = (
+    <Card
         p="lg"
         shadow="sm"
         className={classes.card}
-        radius="md"    
+        radius="md"
+        onClick={handleClick}
       >
         <StrapiPhoto photo={photo} height={512} width={512} isBackground />
-        <div className={classes.overlay} />
+        {title && <div className={classes.overlay} />}
 
-        <div className={classes.content}>
+        {title && <div className={classes.content}>
           <div>
             <Text size="lg" className={classes.title} weight={500}>
               {title}
             </Text>
           </div>
-        </div>
+        </div>}
       </Card>
+  );
+
+  return link ? (
+    <Link href={link!}>
+      {CardContent}
     </Link>
+  ) : (
+    <Box>
+      {CardContent}
+    </Box>
   );
 }
