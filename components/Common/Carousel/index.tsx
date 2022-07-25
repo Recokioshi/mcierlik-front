@@ -1,5 +1,6 @@
 import { Box, Button, Container, createStyles, Space, Text, useMantineTheme } from "@mantine/core";
-import { useMemo, useRef } from "react";
+import { useScrollIntoView } from "@mantine/hooks";
+import { MouseEventHandler, TouchEventHandler, useEffect, useMemo, useRef } from "react";
 import { useMediaQueryForBeakpoint } from "../../../utils/styling";
 import { CarouselCard, CarouselCardProps } from "./CarouselCard";
 
@@ -33,6 +34,7 @@ const useStyles = createStyles((theme) => ({
     overflowX: 'scroll',
     scrollBehavior: 'smooth',
     scrollWidth: 'none',
+    scrollbarWidth: 'none',
     '&::-webkit-scrollbar': { 
       display: 'none',
     },
@@ -81,11 +83,35 @@ const Carousel: React.FC<CarouselProps> = ({ cards }) => {
   const itemWidth = useMemo(() => carouselRef.current ? carouselRef.current.clientWidth / maxItems : 0,
     [maxItems]);
 
+  const { scrollIntoView, targetRef, scrollableRef, cancel } = useScrollIntoView<HTMLDivElement, HTMLDivElement>({ 
+    axis: 'x',
+    cancelable: false,
+    duration: 7000 * cards.length * 4 / maxItems,
+    easing: (t: number) => t,
+  });
+
   const shouldShowButtons = useMemo(() => cards.length > maxItems, [cards, maxItems]);
+
+  useEffect(() => {
+    if (carouselRef.current && shouldShowButtons) {
+      scrollableRef.current = carouselRef.current;
+      setTimeout(() => {
+        scrollIntoView();
+      }, 2000);
+    }
+  }, [scrollIntoView, scrollableRef, shouldShowButtons]);
 
   const onScrollClick = useMemo(() => (direction: "left" | "right") => 
     () => scrollByWithPeriod(carouselRef.current!, itemWidth, direction)
   , [itemWidth]);
+
+  const onMouseEnter = useMemo<MouseEventHandler<HTMLDivElement>>(() => () => {
+    cancel();
+  }, [cancel]);
+
+  const onTouchStart = useMemo<TouchEventHandler<HTMLDivElement>>(() => () => {
+    cancel();
+  }, [cancel]);
 
   return (
     <Container className={classes.container}>
@@ -93,12 +119,19 @@ const Carousel: React.FC<CarouselProps> = ({ cards }) => {
         {`CHECK OUT OUR LATEST PRODUCT${cards.length > 1 ? "S" : ""}`}
       </Text>
       <Space h="lg" />
-      <Box className={classes.flexCarousel} sx={{justifyContent: shouldShowButtons ? 'flex-start' : 'center'}} ref={carouselRef} >
+      <Box
+        className={classes.flexCarousel}
+        sx={{justifyContent: shouldShowButtons ? 'flex-start' : 'center'}}
+        ref={carouselRef}
+        onMouseEnter={onMouseEnter}
+        onTouchStart={onTouchStart}
+      >
         {cards.map((card, index) => (
           <div key={`${card.title}${index}`} className={classes.cardWrapper}>
             <CarouselCard {...card} />
           </div>
         ))}
+        <div ref={targetRef} />
       </Box>
       <Space h="lg" />
       {shouldShowButtons && (
@@ -111,7 +144,6 @@ const Carousel: React.FC<CarouselProps> = ({ cards }) => {
           </Button>
         </>
       )}
-      
     </Container>
   );
 }
