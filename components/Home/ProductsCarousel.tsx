@@ -21,6 +21,7 @@ export const ProductsCarousel = ({ products }: { products: Product[]}) => {
       <Space h="lg" />
       <Carousel
         cards={cards}
+        height="300px"
       />
     </Container>
   );

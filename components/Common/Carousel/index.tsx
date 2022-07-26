@@ -4,7 +4,7 @@ import { MouseEventHandler, TouchEventHandler, useEffect, useMemo, useRef } from
 import { useMediaQueryForBeakpoint } from "../../../utils/styling";
 import { CarouselCard, CarouselCardProps } from "./CarouselCard";
 
-const scrollByWithPeriod = (
+const scrollBy = (
   element: HTMLElement,
   offset: number,
   direction: "left" | "right"
@@ -17,8 +17,9 @@ const scrollByWithPeriod = (
 };
 
 
-type CarouselProps = {
-  cards: CarouselCardProps[]
+type CarouselProps = {  
+  cards: CarouselCardProps[];
+  height?: string;
 };
 
 const useStyles = createStyles((theme) => ({
@@ -30,6 +31,7 @@ const useStyles = createStyles((theme) => ({
   flexCarousel: {
     display: "flex",
     width: '100%',
+    height: '100%',
     padding: theme.spacing.xs,
     overflowX: 'scroll',
     scrollBehavior: 'smooth',
@@ -68,7 +70,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const Carousel: React.FC<CarouselProps> = ({ cards }) => {
+const Carousel: React.FC<CarouselProps> = ({ cards, height }) => {
   const { classes } = useStyles();
   const carouselRef = useRef<HTMLDivElement>(null);
 
@@ -102,7 +104,7 @@ const Carousel: React.FC<CarouselProps> = ({ cards }) => {
   }, [scrollIntoView, scrollableRef, shouldShowButtons]);
 
   const onScrollClick = useMemo(() => (direction: "left" | "right") => 
-    () => scrollByWithPeriod(carouselRef.current!, itemWidth, direction)
+    () => scrollBy(carouselRef.current!, itemWidth, direction)
   , [itemWidth]);
 
   const onMouseEnter = useMemo<MouseEventHandler<HTMLDivElement>>(() => () => {
@@ -121,6 +123,9 @@ const Carousel: React.FC<CarouselProps> = ({ cards }) => {
         ref={carouselRef}
         onMouseEnter={onMouseEnter}
         onTouchStart={onTouchStart}
+        style={{
+          height: height || '200px',
+        }}
       >
         {cards.map((card, index) => (
           <div key={`${card.title}${index}`} className={classes.cardWrapper}>
