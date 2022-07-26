@@ -18,6 +18,7 @@ import { getProduct, getProducts } from '../../utils/api/products';
 import { Product } from '../../utils/api/types/cms';
 import { StrapiPhoto } from '../../components/Common/StrapiPhoto';
 import { GalleryCarousel } from '../../components/Common/Carousel/GalleryCarousel';
+import Link from 'next/link';
 
 const MAX_DESCRIPTION_LENGTH = 250;
 
@@ -164,12 +165,17 @@ export function Product({ product }: { product: Product | null}) {
             </List>
 
             <Group mt={30}>
-              <Button radius="xl" size="md" className={classes.control}>
+              {/* <Button radius="xl" size="md" className={classes.control}>
                 Buy now
               </Button>
               <Button variant="default" radius="xl" size="md" className={classes.control}>
                 add to the basket
-              </Button>
+              </Button> */}
+              <Link href={`/contact?product=${product?.name}`} passHref>
+                <Button radius="xl" size="md" className={classes.control}>
+                  Ask about this product
+                </Button>
+              </Link>
             </Group>
           </div>
           <Box sx={{ width: '100%'}}>
@@ -178,14 +184,14 @@ export function Product({ product }: { product: Product | null}) {
               width={480}
               height={480}
             />}
-            <MediaQuery
+            {gallery.length > 1 && <MediaQuery
               largerThan='md'
               styles={{ display: 'none', backgroundColor: 'red' }}
             >
               <Box>
                 <GalleryCarousel gallery={gallery} onClick={onPhotoClick} />
               </Box>
-            </MediaQuery>
+            </MediaQuery>}
           </Box>
         </div>
       </Container>

@@ -18,6 +18,7 @@ import { ContactIconsList } from '../../components/Contact/ContactIconsList';
 import { SocialMediaLinks } from '../../components/SocialMediaLinks';
 import { Check, X } from 'tabler-icons-react';
 import { useClickOutside } from '@mantine/hooks';
+import { useRouter } from 'next/router';
 
 
 const useStyles = createStyles((theme) => ({
@@ -103,9 +104,12 @@ function ContactUs() {
   const { classes } = useStyles();
   const theme = useMantineTheme();
 
+  const router = useRouter();
+  const { product } = router.query;
+
   const [email, setEmail] = React.useState('');
   const [name, setName] = React.useState('');
-  const [message, setMessage] = React.useState('');
+  const [message, setMessage] = React.useState(product ? `I'm interested in ${product}` : '');
   const [error, setError] = React.useState('');
   const [sentSuccessfully, setSentSuccessfully] = React.useState(false);
 

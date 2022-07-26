@@ -8,9 +8,13 @@ const useStyles = createStyles((theme, _params, getRef) => {
   const image = getRef('image');
 
   return {
+    container: {
+      height: '100%',
+    },
+
     card: {
       position: 'relative',
-      height: 280,
+      height: '100%',
       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
       cursor: 'pointer',
 
@@ -89,7 +93,7 @@ export function CarouselCard({ photo, title, link, onClick, id }: CarouselCardPr
         radius="md"
         onClick={handleClick}
       >
-        <StrapiPhoto photo={photo} height={512} width={512} isBackground />
+        <StrapiPhoto photo={photo} isBackground />
         {title && <div className={classes.overlay} />}
 
         {title && <div className={classes.content}>
@@ -103,11 +107,11 @@ export function CarouselCard({ photo, title, link, onClick, id }: CarouselCardPr
   );
 
   return link ? (
-    <Link href={link!}>
+    <Link href={link!} className={classes.container}>
       {CardContent}
     </Link>
   ) : (
-    <Box>
+    <Box className={classes.container}>
       {CardContent}
     </Box>
   );
