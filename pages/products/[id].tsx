@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import Image from 'next/image';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   createStyles,
   Container,
@@ -11,21 +10,16 @@ import {
   ThemeIcon,
   Popover,
   Box,
+  MediaQuery,
+  Grid,
 } from '@mantine/core';
 import { Check } from 'tabler-icons-react';
 import { getProduct, getProducts } from '../../utils/api/products';
-import { ProductAttributes } from '../../utils/api/types/cms';
+import { Product } from '../../utils/api/types/cms';
 import { StrapiPhoto } from '../../components/Common/StrapiPhoto';
+import { GalleryCarousel } from '../../components/Common/Carousel/GalleryCarousel';
 
 const MAX_DESCRIPTION_LENGTH = 250;
-
-const features = [
-  'High quality materials',
-  'Professional quality work',
-  'Fast turnaround time',
-  'Free shipping',
-  'Free returns',
-];
 
 const useStyles = createStyles((theme) => ({
   inner: {
@@ -87,23 +81,59 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function Product({ product }: { product: ProductAttributes | null}) {
+export function Product({ product }: { product: Product | null}) {
   const { classes } = useStyles();
   const [opened, setOpened] = useState(false);
   const productDescription = (product?.fullDescription || "").slice(0, MAX_DESCRIPTION_LENGTH);
-  const photo = product?.photo?.data?.attributes;
+  const [selectedPhoto, setSelectedPhoto] = useState(product?.photo);
+  const descriptionExpanded = product && product.fullDescription.length > MAX_DESCRIPTION_LENGTH;
+  const gallery = useMemo(() => {
+    const baseArray = [...(product?.gallery || [])];
+    return product?.photo ? [product.photo, ...baseArray] : baseArray;
+  }, [product?.photo, product?.gallery]);
+
+  const onPhotoClick = useCallback((id: string) => {
+    const photoFound = gallery.find((photo) => photo.id === id);
+    if (photoFound) {
+      setSelectedPhoto(photoFound);
+    };
+  }, [gallery]);
+
+  const getOnPhotoClick = useCallback((id: string) => () => {
+    onPhotoClick(id);
+  }, [onPhotoClick]);
+
+  const galleryPhotos = useMemo(() => {
+    return (gallery).map((photo) => (
+      <Grid.Col key={photo.hash} md={4} lg={3} xl={2} onClick={getOnPhotoClick(photo.id)}>
+        <StrapiPhoto
+          photo={photo}
+          width={200}
+          height={200}
+        />
+      </Grid.Col>
+    ))
+  }, [gallery, getOnPhotoClick]);
 
   return (
       <Container>
+        <MediaQuery
+          smallerThan="md"
+          styles={{ display: 'none' }}
+        >
+          <Grid>
+            {galleryPhotos}
+          </Grid>
+        </MediaQuery>
         <div className={classes.inner}>
           <div className={classes.content}>
             <Title className={classes.title}>
               {product?.name}
             </Title>
             <Text color="dimmed" mt="md">
-              {product?.fullDescription.length || 0 > MAX_DESCRIPTION_LENGTH ? productDescription + '...' : productDescription}
+              {descriptionExpanded ? productDescription + '...' : productDescription}
             </Text>
-            <Popover
+            {descriptionExpanded &&<Popover
               opened={opened}
               onClose={() => setOpened(false)}
               target={<Button onClick={() => setOpened((o) => !o)} variant="light">Show more</Button>}
@@ -114,7 +144,7 @@ export function Product({ product }: { product: ProductAttributes | null}) {
               <div style={{ display: 'flex' }}>
                 {product?.fullDescription}
               </div>
-            </Popover>
+            </Popover>}
 
             <List
               mt={30}
@@ -126,7 +156,7 @@ export function Product({ product }: { product: ProductAttributes | null}) {
                 </ThemeIcon>
               }
             >
-              {features.map((feature) => (
+              {product?.features.map((feature) => (
                 <List.Item key={feature}>
                   <b>{feature}</b>
                 </List.Item>
@@ -143,11 +173,19 @@ export function Product({ product }: { product: ProductAttributes | null}) {
             </Group>
           </div>
           <Box sx={{ width: '100%'}}>
-            {photo && <StrapiPhoto 
-              photo={photo}
+            {selectedPhoto && <StrapiPhoto 
+              photo={selectedPhoto}
               width={480}
               height={480}
             />}
+            <MediaQuery
+              largerThan='md'
+              styles={{ display: 'none', backgroundColor: 'red' }}
+            >
+              <Box>
+                <GalleryCarousel gallery={gallery} onClick={onPhotoClick} />
+              </Box>
+            </MediaQuery>
           </Box>
         </div>
       </Container>
@@ -155,9 +193,9 @@ export function Product({ product }: { product: ProductAttributes | null}) {
 }
 
 export async function getStaticPaths() {
-  const productsResponse = await getProducts();
+  const products = await getProducts();
 
-  const paths = productsResponse?.data.map((product) => ({
+  const paths = products.map((product) => ({
     params: { id: `${product.id}` },
   }))
 
@@ -165,10 +203,10 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: { params: { id: string } }) {
-  const productResponse = await getProduct(params.id)
+  const product = await getProduct(params.id)
   return {
     props: {
-      product: productResponse?.data?.attributes || null,
+      product
     }
   };
 }

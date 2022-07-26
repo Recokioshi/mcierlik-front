@@ -3,13 +3,12 @@ import type { NextPage } from 'next';
 import { FeaturesSection } from '../components/Home/FeaturesSection';
 import { HeroSection } from '../components/Home/HeroSection';
 import { ProductsCarousel } from '../components/Home/ProductsCarousel';
-import { getProducts, ProductResponse } from '../utils/api/products';
+import { getProducts, } from '../utils/api/products';
+import { Product } from '../utils/api/types/cms';
 
-type HomeProps = { productsResponse: ProductResponse | null};
+type HomeProps = { products: Product[]};
 
-const Home: NextPage<HomeProps> = ({ productsResponse }) => {
-  const products = productsResponse?.data || [];
-
+const Home: NextPage<HomeProps> = ({ products }) => {
   return (
     <>
       <HeroSection />
@@ -22,10 +21,10 @@ const Home: NextPage<HomeProps> = ({ productsResponse }) => {
 }
 
 export async function getStaticProps() {
-  const productsResponse = await getProducts();
+  const products = await getProducts();
   return {
     props: {
-      productsResponse
+      products
     }
   };
 }

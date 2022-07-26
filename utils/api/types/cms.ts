@@ -1,3 +1,5 @@
+import { Color } from "./common";
+
 export type BData<T> = {
   id: string;
   attributes: T;
@@ -20,6 +22,11 @@ export type ContentResponse<T> = {
   }
 }
 
+export type OptionalContentResponse<T, CR extends ContentResponse<T> | SingleContentResponse<T>> = Omit<CR, 'data'> & {
+  data: CR['data'] | null;
+}
+
+
 export type BaseAttributes = {
   createdAt:	string,
   updatedAt:	string,
@@ -31,12 +38,23 @@ export type BaseAttributes = {
 export type ProductAttributes = BaseAttributes & {
   name: string,
   isActive: boolean,
-  saleFrom: string,
+  saleFrom?: string,
   price: number,
-  photo: SingleContentResponse<Photo>,
+  photo: SingleContentResponse<PhotoAttributes>,
+  gallery: OptionalContentResponse<PhotoAttributes, ContentResponse<PhotoAttributes>>,
+  features?: string[],
+  colors?: Record<string, Color>,
   shortDescription: string,
   fullDescription: string,
 };
+
+export type Product = Omit<ProductAttributes, 'photo' | 'gallery' | 'features' | 'colors'> & {
+  id: BData<ProductAttributes>['id'],
+  photo: Photo,
+  gallery: Photo[],
+  features: string[],
+  colors: Record<string, Color>,
+}
 
 export type Role = {
 }
@@ -68,7 +86,7 @@ type BasePhoto = {
   provider_metadata: {},
 }
 
-export type Photo = BaseAttributes & BasePhoto & {
+export type PhotoAttributes = BaseAttributes & BasePhoto & {
   alternativeText: string,
   caption: string,
   formats?: {
@@ -80,4 +98,8 @@ export type Photo = BaseAttributes & BasePhoto & {
   previewUrl: string,
   provider: string,
   relate: {},
+}
+
+export type Photo = PhotoAttributes & {
+  id: BData<PhotoAttributes>['id'],
 }
