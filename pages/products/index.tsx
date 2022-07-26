@@ -14,6 +14,7 @@ import { getProducts } from '../../utils/api/products';
 import Link from 'next/link';
 import { Photo, Product } from '../../utils/api/types/cms';
 import { StrapiPhoto } from '../../components/Common/StrapiPhoto';
+import { GetStaticPropsContext } from 'next';
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -123,8 +124,8 @@ const Products = ({ products }: { products: Product[]}) => {
   );
 }
 
-export async function getStaticProps() {
-  const products = await getProducts();
+export async function getStaticProps({ locale }: GetStaticPropsContext) {
+  const products = await getProducts(locale);
   return {
     props: {
       products

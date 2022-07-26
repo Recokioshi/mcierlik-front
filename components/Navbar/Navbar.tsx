@@ -1,11 +1,12 @@
 /* This example requires Tailwind CSS v2.0+ */
 import logo from '../../assets/images/logo-inverted.png'
 import React, { useMemo } from 'react';
-import { createStyles, Header, Container, Group, Button, Burger, Transition, Paper } from '@mantine/core';
+import { createStyles, Header, Container, Group, Button, Burger, Transition, Paper, Box } from '@mantine/core';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useBooleanToggle } from '@mantine/hooks';
+import { LanguagePicker } from './LanguagePicker';
 
 const HEADER_HEIGHT = 80;
 
@@ -45,6 +46,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   burger: {
+    marginRight: '1rem',
     [theme.fn.largerThan('sm')]: {
       display: 'none',
     },
@@ -124,12 +126,15 @@ export function Navbar({ links }: HeaderResponsiveProps) {
           {items}
         </Group>
 
-        <Burger
-          opened={opened}
-          onClick={() => toggleOpened()}
-          className={classes.burger}
-          size="sm"
-        />
+        <Box>
+          <Burger
+            opened={opened}
+            onClick={() => toggleOpened()}
+            className={classes.burger}
+            size="sm"
+          />
+          <LanguagePicker />
+        </Box>
 
         <Transition transition="pop-top-right" duration={50} mounted={opened}>
           {(styles) => (

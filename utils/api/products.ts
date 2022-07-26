@@ -5,7 +5,7 @@ import { Color } from "./types/common";
 
 export type ProductResponse = ContentResponse<ProductAttributes>;
 
-const BASE_QUERY = `populate=photo&populate=gallery&filters[isActive][$eq]=true`;
+const getBaseQuery = (locale?: string) => `populate=photo&populate=gallery&filters[isActive][$eq]=true${locale ? `&locale=${locale}` : ''}`;
 
 const isStringArray = (arr: any | any[]): arr is string[] => {
   return arr && Array.isArray(arr) && arr.every(item => typeof item === 'string');
@@ -43,9 +43,9 @@ const parseProduct = (product: BData<ProductAttributes>): Product => {
   }
 }
 
-export const getProducts = async () => {
+export const getProducts = async (locale?: string) => {
   try {
-    const response = await cmsFetch<ProductAttributes>(`products?${BASE_QUERY}`);
+    const response = await cmsFetch<ProductAttributes>(`products?${getBaseQuery(locale)}`);
     return response.data.map(product => parseProduct(product));
   } catch (er) {
     console.error(er);
@@ -53,9 +53,9 @@ export const getProducts = async () => {
   }
 }
 
-export const getProduct = async (id: string) => {
+export const getProduct = async (id: string, locale?: string) => {
   try {
-    const response = await cmsFetchSingle<ProductAttributes>(`products/${id}/?${BASE_QUERY}`);
+    const response = await cmsFetchSingle<ProductAttributes>(`products/${id}/?${getBaseQuery(locale)}`);
     return parseProduct(response.data);
   } catch (er) {
     console.error(er);

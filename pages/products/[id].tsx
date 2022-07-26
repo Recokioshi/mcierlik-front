@@ -19,6 +19,7 @@ import { Product } from '../../utils/api/types/cms';
 import { StrapiPhoto } from '../../components/Common/StrapiPhoto';
 import { GalleryCarousel } from '../../components/Common/Carousel/GalleryCarousel';
 import Link from 'next/link';
+import { GetStaticPaths, GetStaticPropsContext } from 'next';
 
 const MAX_DESCRIPTION_LENGTH = 250;
 
@@ -198,18 +199,20 @@ export function Product({ product }: { product: Product | null}) {
   );
 }
 
-export async function getStaticPaths() {
-  const products = await getProducts();
-
-  const paths = products.map((product) => ({
-    params: { id: `${product.id}` },
-  }))
+export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
+  const paths: Array<string | { params: { id: string}; locale?: string }> = [];
+  for (const locale of locales || []) {
+    const products = await getProducts(locale);
+    for (const product of products) {
+      paths.push({ params: { id: `${product.id}` }, locale });
+    }
+  };
 
   return { paths, fallback: false }
 }
 
-export async function getStaticProps({ params }: { params: { id: string } }) {
-  const product = await getProduct(params.id)
+export async function getStaticProps({ params, locale }: GetStaticPropsContext) {
+  const product = await getProduct(`${params?.id}`, locale)
   return {
     props: {
       product
