@@ -86,6 +86,7 @@ export function Product({ product }: { product: Product | null}) {
   const [opened, setOpened] = useState(false);
   const productDescription = (product?.fullDescription || "").slice(0, MAX_DESCRIPTION_LENGTH);
   const [selectedPhoto, setSelectedPhoto] = useState(product?.photo);
+  const descriptionExpanded = product && product.fullDescription.length > MAX_DESCRIPTION_LENGTH;
   const gallery = useMemo(() => {
     const baseArray = [...(product?.gallery || [])];
     return product?.photo ? [product.photo, ...baseArray] : baseArray;
@@ -130,9 +131,9 @@ export function Product({ product }: { product: Product | null}) {
               {product?.name}
             </Title>
             <Text color="dimmed" mt="md">
-              {product?.fullDescription.length || 0 > MAX_DESCRIPTION_LENGTH ? productDescription + '...' : productDescription}
+              {descriptionExpanded ? productDescription + '...' : productDescription}
             </Text>
-            <Popover
+            {descriptionExpanded &&<Popover
               opened={opened}
               onClose={() => setOpened(false)}
               target={<Button onClick={() => setOpened((o) => !o)} variant="light">Show more</Button>}
@@ -143,7 +144,7 @@ export function Product({ product }: { product: Product | null}) {
               <div style={{ display: 'flex' }}>
                 {product?.fullDescription}
               </div>
-            </Popover>
+            </Popover>}
 
             <List
               mt={30}
