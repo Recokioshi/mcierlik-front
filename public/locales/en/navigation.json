@@ -1,0 +1,11 @@
+{
+  "home": "Home",
+  "products": "Products",
+  "about": "About",
+  "contact": "Contact",
+  "languages": {
+    "pl": "Polish",
+    "en": "English",
+    "de": "German"
+  }
+}

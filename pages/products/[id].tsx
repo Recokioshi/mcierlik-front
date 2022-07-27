@@ -1,4 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 import {
   createStyles,
   Container,
@@ -19,7 +21,7 @@ import { Product } from '../../utils/api/types/cms';
 import { StrapiPhoto } from '../../components/Common/StrapiPhoto';
 import { GalleryCarousel } from '../../components/Common/Carousel/GalleryCarousel';
 import Link from 'next/link';
-import { GetStaticPaths, GetStaticPropsContext } from 'next';
+import { GetStaticPaths, GetStaticProps } from 'next';
 
 const MAX_DESCRIPTION_LENGTH = 250;
 
@@ -85,6 +87,9 @@ const useStyles = createStyles((theme) => ({
 
 export function Product({ product }: { product: Product | null}) {
   const { classes } = useStyles();
+
+  const { t } = useTranslation('products');
+
   const [opened, setOpened] = useState(false);
   const productDescription = (product?.fullDescription || "").slice(0, MAX_DESCRIPTION_LENGTH);
   const [selectedPhoto, setSelectedPhoto] = useState(product?.photo);
@@ -138,7 +143,7 @@ export function Product({ product }: { product: Product | null}) {
             {descriptionExpanded &&<Popover
               opened={opened}
               onClose={() => setOpened(false)}
-              target={<Button onClick={() => setOpened((o) => !o)} variant="light">Show more</Button>}
+              target={<Button onClick={() => setOpened((o) => !o)} variant="light">{t('showMore')}</Button>}
               width={260}
               position="bottom"
               withArrow
@@ -167,14 +172,14 @@ export function Product({ product }: { product: Product | null}) {
 
             <Group mt={30}>
               {/* <Button radius="xl" size="md" className={classes.control}>
-                Buy now
+                {t('buyNow')}
               </Button>
               <Button variant="default" radius="xl" size="md" className={classes.control}>
-                add to the basket
+                {t('addToCart')}
               </Button> */}
               <Link href={`/contact?product=${product?.name}`} passHref>
                 <Button radius="xl" size="md" className={classes.control}>
-                  Ask about this product
+                  {t('askButton')}
                 </Button>
               </Link>
             </Group>
@@ -211,11 +216,12 @@ export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
   return { paths, fallback: false }
 }
 
-export async function getStaticProps({ params, locale }: GetStaticPropsContext) {
+export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const product = await getProduct(`${params?.id}`, locale)
   return {
     props: {
-      product
+      product,
+      ...await serverSideTranslations(locale || '', ['products', 'navigation']),
     }
   };
 }

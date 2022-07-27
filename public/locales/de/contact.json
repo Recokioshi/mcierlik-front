@@ -1,0 +1,28 @@
+{
+  "leftSection": {
+    "header": "Kontaktiere uns",
+    "headerDescription": "Hinterlassen Sie Ihre E-Mail und wir werden uns innerhalb von 24 Stunden bei Ihnen melden.",
+    "emailLabel": "Email",
+    "phoneLabel": "Telefon",
+    "addressLabel": "Adresse",
+    "workingHoursLabel": "Arbeitszeit"
+  },
+  "rightSection": {
+    "emailLabel": "Email",
+    "emailPlaceholder": "ihre@email.de",
+    "nameLabel": "Name",
+    "namePlaceholder": "Stefan Müller",
+    "messageLabel": "Ihre Nachricht",
+    "messagePlaceholder": "Ich interessiere mich für Ihr Produkt",
+    "sendButton": "Senden",
+    "preselectedProduct": "Ich habe ein interessantes Produkt gefunden - \"{{productName}}\". Ich möchte mehr darüber wissen."
+  },
+  "messages": {
+    "success": "Die Nachricht wurde erfolgreich übermittelt.",
+    "error": {
+      "emptyFields": "Bitte füllen Sie alle Felder aus.",
+      "unknownError": "Ein unbekannter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut."
+    }
+  }
+}
+

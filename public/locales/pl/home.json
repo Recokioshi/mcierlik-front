@@ -1,0 +1,27 @@
+{
+  "hero": {
+    "header-prefix": "",
+    "header-bolded": "Idealne wsparcie ",
+    "header-suffix": "dla Twojego warsztatu.",
+    "subTitle": "Ręcznie wykonane narzędzia najwyższej jakości dopracowane tak, aby zepewnić niezawodność i bezpieczeństwo w każdej sytuacji.",
+    "showAllButton": "Pokaż wszystkie produkty"
+  },
+  "carousel": {
+    "header": "Sprawdź nasze najnowsze produkty"
+  },
+  "featurePoints": {
+    "first": {
+      "header": "Darmowa wysyłka",
+      "subTitle": "Aby nasze produkty mogły dotrzeć do Ciebe, gdziekolwiek jesteś."
+    },
+    "second": {
+      "header": "Najwyższa jakość",
+      "subTitle": "Każdy element naszego produktu jest precyzyjnie wykonany na najwyższej jakości obrabiarkach CNC i składany ręcznie, co pozwala zapewnić najwyższą jakość naszych produktów."
+    },
+    "third": {
+      "header": "Oszczędność w czasie",
+      "subTitle": "Dzięki bezkonkurencyjnej jakości i trwałości naszych podzespołów, możesz być pewien, że otrzymasz produkt który będzie toważyszył Ci latami."
+    }
+  }
+}
+

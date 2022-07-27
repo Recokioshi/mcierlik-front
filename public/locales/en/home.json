@@ -1,0 +1,27 @@
+{
+  "hero": {
+    "header-prefix": "A ",
+    "header-bolded": "perfect companion ",
+    "header-suffix": "for your workshop.",
+    "subTitle": "Top notch quality, hand crafted tools perfectioned to cover your needs.",
+    "showAllButton": "Show all products"
+  },
+  "carousel": {
+    "header": "Check out our latest products"
+  },
+  "featurePoints": {
+    "first": {
+      "header": "Free Worldwide shipping",
+      "subTitle": "Our products will reach you wherever you are."
+    },
+    "second": {
+      "header": "Best Quality Product",
+      "subTitle": "Every part of our product is precisely crafter on best quality CNC machies and hand assembled. The perfect quality is our main priority."
+    },
+    "third": {
+      "header": "Save money over time",
+      "subTitle": "Thanks to the unrivaled quality and durability of our components, you can be sure that you will receive a product that will accompany you for years."
+    }
+  }
+}
+

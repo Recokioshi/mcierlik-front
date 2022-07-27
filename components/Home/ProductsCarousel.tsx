@@ -1,9 +1,11 @@
 import { Container, Text, Space } from "@mantine/core";
+import { useTranslation } from "next-i18next";
 import { useMemo } from "react";
 import { Product } from "../../utils/api/types/cms";
 import Carousel from "../Common/Carousel";
 
 export const ProductsCarousel = ({ products }: { products: Product[]}) => {
+  const { t } = useTranslation('home');
   const cards = useMemo(() => 
     products.map(({ name, shortDescription, photo, id }) => ({
       title: name,
@@ -16,7 +18,7 @@ export const ProductsCarousel = ({ products }: { products: Product[]}) => {
   return (
     <Container>
       <Text size="xl" color="primary" align="center">
-        {`CHECK OUT OUR LATEST PRODUCT${cards.length > 1 ? "S" : ""}`}
+        {`${t('carousel.header').toUpperCase()}`}
       </Text>
       <Space h="lg" />
       <Carousel

@@ -1,4 +1,5 @@
 import React from 'react';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Bookmark, Heart, Share } from 'tabler-icons-react';
 import {
   Card,
@@ -14,7 +15,7 @@ import { getProducts } from '../../utils/api/products';
 import Link from 'next/link';
 import { Photo, Product } from '../../utils/api/types/cms';
 import { StrapiPhoto } from '../../components/Common/StrapiPhoto';
-import { GetStaticPropsContext } from 'next';
+import { GetStaticProps } from 'next';
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -124,11 +125,12 @@ const Products = ({ products }: { products: Product[]}) => {
   );
 }
 
-export async function getStaticProps({ locale }: GetStaticPropsContext) {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const products = await getProducts(locale);
   return {
     props: {
-      products
+      products,
+      ...await serverSideTranslations(locale || '', ['navigation']),
     }
   };
 }

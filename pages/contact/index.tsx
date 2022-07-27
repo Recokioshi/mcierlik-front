@@ -1,4 +1,6 @@
 import React, { useCallback } from 'react';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation, TFunction } from 'next-i18next';
 import {
   createStyles,
   Text,
@@ -19,7 +21,11 @@ import { SocialMediaLinks } from '../../components/SocialMediaLinks';
 import { Check, X } from 'tabler-icons-react';
 import { useClickOutside } from '@mantine/hooks';
 import { useRouter } from 'next/router';
+import { GetStaticProps } from 'next';
 
+const getPreselectedProductMessage = (t: TFunction, product?: string) => 
+  product ?
+  t('rightSection.preselectedProduct', { productName: product }) :  '';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -98,18 +104,19 @@ const onSendEmail = async (email: string, name: string, message: string) => {
     }),
   });
 };
-  
 
 function ContactUs() {
   const { classes } = useStyles();
   const theme = useMantineTheme();
+
+  const { t } = useTranslation('contact');
 
   const router = useRouter();
   const { product } = router.query;
 
   const [email, setEmail] = React.useState('');
   const [name, setName] = React.useState('');
-  const [message, setMessage] = React.useState(product ? `I'm interested in ${product}` : '');
+  const [message, setMessage] = React.useState(getPreselectedProductMessage(t, product as string));
   const [error, setError] = React.useState('');
   const [sentSuccessfully, setSentSuccessfully] = React.useState(false);
 
@@ -120,7 +127,7 @@ function ContactUs() {
 
   const handleSubmit = useCallback(() => {
     if (!email || !name || !message) {
-      setError('Please fill out all fields');
+      setError(t('messages.emptyFields'));
       return;
     }
     setError('');
@@ -134,9 +141,9 @@ function ContactUs() {
     }
     }).catch((err) => {
       console.log(error);
-      setError('Bummer! Something went wrong, and the message was not sent.');
+      setError(t('messages.unknownError'));
     });
-  }, [email, name, message, error]);
+  }, [email, name, message, t, error]);
 
   const onInputChange = useCallback(
     (fieldSetter: React.Dispatch<React.SetStateAction<string>>) => 
@@ -150,28 +157,28 @@ function ContactUs() {
       <div className={classes.wrapper}>
         <SimpleGrid cols={2} spacing={50} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
           <div>
-            <Title className={classes.title}>Contact us</Title>
+            <Title className={classes.title}>{t('leftSection.header')}</Title>
             <Text className={classes.description} mt="sm" mb={30}>
-              Leave your email and we will get back to you within 24 hours
+              {t('leftSection.headerDescription')}
             </Text>
 
-            <ContactIconsList variant="white" />
+            <ContactIconsList variant="white"/>
 
             <Space h='lg' />
             <SocialMediaLinks iconClassName={classes.social}/>
           </div>
           <div className={classes.form}>
             <TextInput
-              label="Email"
-              placeholder="your@email.com"
+              label={t('rightSection.emailLabel')}
+              placeholder={t('rightSection.emailPlaceholder')}
               required
               classNames={{ input: classes.input, label: classes.inputLabel }}
               value={email}
               onChange={onInputChange(setEmail)}
             />
             <TextInput
-              label="Name"
-              placeholder="John Doe"
+              label={t('rightSection.nameLabel')}
+              placeholder={t('rightSection.namePlaceholder')}
               mt="md"
               classNames={{ input: classes.input, label: classes.inputLabel }}
               value={name}
@@ -180,8 +187,8 @@ function ContactUs() {
             />
             <Textarea
               required
-              label="Your message"
-              placeholder="I want to order your goods"
+              label={t('rightSection.messageLabel')}
+              placeholder={t('rightSection.messagePlaceholder')}
               minRows={4}
               mt="md"
               classNames={{ input: classes.input, label: classes.inputLabel }}
@@ -190,7 +197,7 @@ function ContactUs() {
             />
 
             <Group position="right" mt="md">
-              <Button className={classes.control} onClick={handleSubmit} ref={buttonRef}>Send message</Button>
+              <Button className={classes.control} onClick={handleSubmit} ref={buttonRef}>{t('rightSection.sendButton')}</Button>
             </Group>
             <Popper
               position="bottom"
@@ -208,7 +215,7 @@ function ContactUs() {
               }
               {sentSuccessfully &&
                 <Notification icon={<Check size={18} />} color="teal" title="Success!" disallowClose={true}>
-                  You have left the message. We will contact you as soon as possible.
+                  {t('messages.success')}
                 </Notification>
               }
             </Popper>            
@@ -218,5 +225,13 @@ function ContactUs() {
     </Container>
   );
 }
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => (
+  {
+    props: {
+      ...await serverSideTranslations(locale || '', ['contact', 'navigation']),
+    }
+  }
+);
 
 export default ContactUs;

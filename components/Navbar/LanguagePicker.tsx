@@ -1,18 +1,18 @@
 import React, { useCallback, useState } from 'react';
-import { createStyles, UnstyledButton, Menu, Image, Group } from '@mantine/core';
+import { useTranslation } from 'next-i18next';
+import { createStyles, UnstyledButton, Menu, Group } from '@mantine/core';
 import { ChevronDown } from 'tabler-icons-react';
 import { useRouter } from 'next/router';
 
 type LanguageElement = {
-  label: string;
   image: string;
   code: string;
 };
 
 const data: LanguageElement[] = [
-  { label: 'English', image: '🇺🇸', code: 'en' },
-  { label: 'German', image: '🇩🇪', code: 'de' },
-  { label: 'Polish', image: '🇵🇱', code: 'pl' },
+  { image: '🇺🇸', code: 'en' },
+  { image: '🇩🇪', code: 'de' },
+  { image: '🇵🇱', code: 'pl' },
 ];
 
 const useStyles = createStyles((theme, { opened }: { opened: boolean }) => ({
@@ -54,6 +54,8 @@ export function LanguagePicker() {
   const router = useRouter();
   const { pathname, asPath, query, locale } = router;
 
+  const { t } = useTranslation('navigation');
+
   const [opened, setOpened] = useState(false);
   const { classes } = useStyles({ opened });
   const [selected, setSelected] = useState(data.find(({ code }) => code === locale) || data[0]);
@@ -68,9 +70,9 @@ export function LanguagePicker() {
   const items = data.map((item) => (
     <Menu.Item
       onClick={handleLanguageChange(item)}
-      key={item.label}
+      key={item.code}
     >
-      {item.image} {item.label}
+      {item.image} {t(`languages.${item.code}`)}
     </Menu.Item>
   ));
 

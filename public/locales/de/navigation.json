@@ -1,0 +1,12 @@
+{
+  "home": "Startseite",
+  "products": "Produkte",
+  "about": "Um",
+  "contact": "Kontakt",
+  "languages": {
+    "pl": "Polieren",
+    "en": "English",
+    "de": "Deutsch"
+  }
+}
+
