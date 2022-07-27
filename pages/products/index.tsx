@@ -1,4 +1,6 @@
 import React from 'react';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 import { Bookmark, Heart, Share } from 'tabler-icons-react';
 import {
   Card,
@@ -14,6 +16,7 @@ import { getProducts } from '../../utils/api/products';
 import Link from 'next/link';
 import { Photo, Product } from '../../utils/api/types/cms';
 import { StrapiPhoto } from '../../components/Common/StrapiPhoto';
+import { GetStaticProps } from 'next';
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -106,15 +109,17 @@ export function ArticleCard({
 }
 
 const Products = ({ products }: { products: Product[]}) => {
+  const { t: tc } = useTranslation('common');
+
   return (
     <Grid justify="center" align="center">
-      {products.map(({ photo, name, shortDescription, id }) => (
+      {products.map(({ photo, name, shortDescription, id, price }) => (
         <Grid.Col key={id} md={4} lg={3} sm={6} xs={8}>
           <ArticleCard
             photo={photo}
             link={`/products/${id}`}
             title={name}
-            description={shortDescription}
+            description={`${shortDescription} - ${price}${tc('currencySuffix')}`}
             rating={"new"}
           />
         </Grid.Col>
@@ -123,11 +128,12 @@ const Products = ({ products }: { products: Product[]}) => {
   );
 }
 
-export async function getStaticProps() {
-  const products = await getProducts();
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  const products = await getProducts(locale);
   return {
     props: {
-      products
+      products,
+      ...await serverSideTranslations(locale || '', ['common', 'navigation']),
     }
   };
 }

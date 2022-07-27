@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'next-i18next';
 import { createStyles, Text, SimpleGrid, Container } from '@mantine/core';
 import { Truck, Certificate, Coin } from 'tabler-icons-react';
 
@@ -65,26 +66,27 @@ function Feature({ icon: Icon, title, description, className, ...others }: Featu
 const mockdata = [
   {
     icon: Truck,
-    title: 'Free Worldwide shipping',
-    description:
-      'Our products will reach you wherever you are.',
+    title: 'first',
   },
   {
     icon: Certificate,
-    title: 'Best Quality Product',
-    description:
-      'Every part of our product is precisely crafter on best quality CNC machies and hand assembled. The perfect quality is our main priority.',
+    title: 'second',
   },
   {
     icon: Coin,
-    title: 'Very Affordable Pricing',
-    description:
-      'Thought to have gone extinct, Relicanth was given a name that is a variation of the name of the person who discovered.',
+    title: 'third',
   },
 ];
 
 export function FeaturesSection() {
-  const items = mockdata.map((item) => <Feature {...item} key={item.title} />);
+  const { t } = useTranslation('home');
+  const items = mockdata.map(({ icon, title }) => 
+    <Feature
+      icon={icon}
+      key={title}
+      title={t(`featurePoints.${title}.header`)}
+      description={t(`featurePoints.${title}.subTitle`)}
+    />);
 
   return (
     <Container mt={30} mb={30} size="lg">

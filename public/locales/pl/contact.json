@@ -1,0 +1,28 @@
+{
+  "leftSection": {
+    "header": "Wyślij nam wiadomość",
+    "headerDescription": "Zostaw wiadomość, a my odezwimy się w ciągu 24 godzin.",
+    "emailLabel": "E-mail",
+    "phoneLabel": "Telefon",
+    "addressLabel": "Adres",
+    "workingHoursLabel": "Godziny pracy"
+  },
+  "rightSection": {
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "twoj@email.pl",
+    "nameLabel": "Imię",
+    "namePlaceholder": "Jan Kowalski",
+    "messageLabel": "Twoja wiadomość",
+    "messagePlaceholder": "Jestem zainteresowany Twoim projektem...",
+    "sendButton": "Wyślij",
+    "preselectedProduct": "Znalałem ciekawy produkt - \"{{productName}}\". Chciałbym się z Tobą skontaktować w tej sprawie."
+  },
+  "messages": {
+    "success": "Wiadomość została wysłana pomyślnie.",
+    "error": {
+      "emptyFields": "Wypełnij wszystkie pola.",
+      "unknownError": "Wystąpił nieznany błąd. Spróbuj ponownie później."
+    }
+  }
+}
+

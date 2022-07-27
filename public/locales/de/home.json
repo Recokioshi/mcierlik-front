@@ -1,0 +1,27 @@
+{
+  "hero": {
+    "header-prefix": "Ein ",
+    "header-bolded": "perfekter Begleiter ",
+    "header-suffix": "für Ihre Werkstatt.",
+    "subTitle": "Erstklassige Qualität, handgefertigte Werkzeuge, perfektioniert, um Ihre Bedürfnisse zu erfüllen.",
+    "showAllButton": "Alle Produkte anzeigen"
+  },
+  "carousel": {
+    "header": "Schauen Sie sich unsere neuesten Produkte an"
+  },
+  "featurePoints": {
+    "first": {
+      "header": "Weltweiter Gratisversand",
+      "subTitle": "Unsere Produkte erreichen Sie, wo immer Sie sind."
+    },
+    "second": {
+      "header": "Bestes Qualitätsprodukt",
+      "subTitle": "Jedes Teil unseres Produkts wird präzise auf CNC-Maschinen höchster Qualität gefertigt und von Hand montiert. Die einwandfreie Qualität steht bei uns an erster Stelle."
+    },
+    "third": {
+      "header": "Sparen Sie im Laufe der Zeit Geld",
+      "subTitle": "Dank der konkurrenzlosen Qualität und Langlebigkeit unserer Komponenten können Sie sicher sein, dass Sie ein Produkt erhalten, das Sie jahrelang begleiten wird."
+    }
+  }
+}
+

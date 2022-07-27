@@ -1,4 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 import {
   createStyles,
   Container,
@@ -19,6 +21,7 @@ import { Product } from '../../utils/api/types/cms';
 import { StrapiPhoto } from '../../components/Common/StrapiPhoto';
 import { GalleryCarousel } from '../../components/Common/Carousel/GalleryCarousel';
 import Link from 'next/link';
+import { GetStaticPaths, GetStaticProps } from 'next';
 
 const MAX_DESCRIPTION_LENGTH = 250;
 
@@ -29,6 +32,7 @@ const useStyles = createStyles((theme) => ({
     justifyContent: 'space-between',
     paddingTop: theme.spacing.xl,
     paddingBottom: theme.spacing.xl,
+    gap: theme.spacing.md,
 
     [theme.fn.smallerThan('md')]: {
       flexDirection: 'column-reverse',
@@ -37,7 +41,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   content: {
-    maxWidth: '50%',
+    maxWidth: '47%',
 
     [theme.fn.smallerThan('md')]: {
       maxWidth: '100%',
@@ -84,6 +88,10 @@ const useStyles = createStyles((theme) => ({
 
 export function Product({ product }: { product: Product | null}) {
   const { classes } = useStyles();
+
+  const { t } = useTranslation('products');
+  const { t: tc } = useTranslation('common');
+
   const [opened, setOpened] = useState(false);
   const productDescription = (product?.fullDescription || "").slice(0, MAX_DESCRIPTION_LENGTH);
   const [selectedPhoto, setSelectedPhoto] = useState(product?.photo);
@@ -106,7 +114,7 @@ export function Product({ product }: { product: Product | null}) {
 
   const galleryPhotos = useMemo(() => {
     return (gallery).map((photo) => (
-      <Grid.Col key={photo.hash} md={4} lg={3} xl={2} onClick={getOnPhotoClick(photo.id)}>
+      <Grid.Col key={photo.hash} md={4} lg={3} xl={2} onClick={getOnPhotoClick(photo.id)} style={{ cursor: 'pointer' }}>
         <StrapiPhoto
           photo={photo}
           width={200}
@@ -131,14 +139,15 @@ export function Product({ product }: { product: Product | null}) {
             <Title className={classes.title}>
               {product?.name}
             </Title>
+            <Text size='xl' weight={700} mt={30}>{product?.price} {tc('currencySuffix')}</Text>
             <Text color="dimmed" mt="md">
               {descriptionExpanded ? productDescription + '...' : productDescription}
             </Text>
             {descriptionExpanded &&<Popover
               opened={opened}
               onClose={() => setOpened(false)}
-              target={<Button onClick={() => setOpened((o) => !o)} variant="light">Show more</Button>}
-              width={260}
+              target={<Button onClick={() => setOpened((o) => !o)} variant="light">{t('showMore')}</Button>}
+              width="70%"
               position="bottom"
               withArrow
             >
@@ -166,14 +175,14 @@ export function Product({ product }: { product: Product | null}) {
 
             <Group mt={30}>
               {/* <Button radius="xl" size="md" className={classes.control}>
-                Buy now
+                {t('buyNow')}
               </Button>
               <Button variant="default" radius="xl" size="md" className={classes.control}>
-                add to the basket
+                {t('addToCart')}
               </Button> */}
               <Link href={`/contact?product=${product?.name}`} passHref>
                 <Button radius="xl" size="md" className={classes.control}>
-                  Ask about this product
+                  {t('askButton')}
                 </Button>
               </Link>
             </Group>
@@ -198,21 +207,24 @@ export function Product({ product }: { product: Product | null}) {
   );
 }
 
-export async function getStaticPaths() {
-  const products = await getProducts();
-
-  const paths = products.map((product) => ({
-    params: { id: `${product.id}` },
-  }))
+export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
+  const paths: Array<string | { params: { id: string}; locale?: string }> = [];
+  for (const locale of locales || []) {
+    const products = await getProducts(locale);
+    for (const product of products) {
+      paths.push({ params: { id: `${product.id}` }, locale });
+    }
+  };
 
   return { paths, fallback: false }
 }
 
-export async function getStaticProps({ params }: { params: { id: string } }) {
-  const product = await getProduct(params.id)
+export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
+  const product = await getProduct(`${params?.id}`, locale)
   return {
     props: {
-      product
+      product,
+      ...await serverSideTranslations(locale || '', ['common', 'products', 'navigation']),
     }
   };
 }

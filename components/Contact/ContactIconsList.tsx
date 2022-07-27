@@ -1,6 +1,8 @@
 import React from 'react';
 import { createStyles, ThemeIcon, Text, Group, SimpleGrid, Box } from '@mantine/core';
 import { Sun, Phone, MapPin, At } from 'tabler-icons-react';
+import { useTranslation } from 'next-i18next';
+
 
 type ContactIconVariant = 'white' | 'gradient';
 
@@ -79,41 +81,20 @@ interface ContactIconsListProps {
 }
 
 const MOCKDATA = [
-  { title: 'Email', description: 'snahonet@o2.pl', icon: At },
-  { title: 'Phone', description: '+48 662 266 686', icon: Phone },
-  { title: 'Address', description: '02826 Sachsen - Görlitz', icon: MapPin },
-  { title: 'Working hours', description: '4 p.m. – 9 p.m.', icon: Sun },
+  { title: 'emailLabel', description: 'snahonet@o2.pl', icon: At },
+  { title: 'phoneLabel', description: '+48 662 266 686', icon: Phone },
+  { title: 'addressLabel', description: '02826 Sachsen - Görlitz', icon: MapPin },
+  { title: 'workingHoursLabel', description: '4 p.m. – 9 p.m.', icon: Sun },
 ];
 
-export function ContactIconsList({ data = MOCKDATA, variant }: ContactIconsListProps) {
-  const items = data.map((item, index) => <ContactIcon key={index} variant={variant} {...item} />);
+export function ContactIconsList({ data = MOCKDATA, variant}: ContactIconsListProps) {
+  const { t } = useTranslation('contact');
+  const items = data.map(({title, ...rest}, index) => 
+    <ContactIcon
+      key={index} 
+      variant={variant}
+      title={t(`leftSection.${title}`)}
+      {...rest} 
+    />);
   return <Group direction="column">{items}</Group>;
-}
-
-export function ContactIcons() {
-  return (
-    <SimpleGrid cols={2} breakpoints={[{ maxWidth: 755, cols: 1 }]}>
-      <Box
-        sx={(theme) => ({
-          padding: theme.spacing.xl,
-          borderRadius: theme.radius.md,
-          backgroundColor: theme.white,
-        })}
-      >
-        <ContactIconsList />
-      </Box>
-
-      <Box
-        sx={(theme) => ({
-          padding: theme.spacing.xl,
-          borderRadius: theme.radius.md,
-          backgroundImage: `linear-gradient(135deg, ${theme.colors[theme.primaryColor][6]} 0%, ${
-            theme.colors[theme.primaryColor][4]
-          } 100%)`,
-        })}
-      >
-        <ContactIconsList variant="white" />
-      </Box>
-    </SimpleGrid>
-  );
 }

@@ -1,5 +1,6 @@
 import { Divider, Space } from '@mantine/core';
-import type { NextPage } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import type { GetStaticPropsContext, NextPage } from 'next';
 import { FeaturesSection } from '../components/Home/FeaturesSection';
 import { HeroSection } from '../components/Home/HeroSection';
 import { ProductsCarousel } from '../components/Home/ProductsCarousel';
@@ -20,11 +21,12 @@ const Home: NextPage<HomeProps> = ({ products }) => {
   )
 }
 
-export async function getStaticProps() {
-  const products = await getProducts();
+export async function getStaticProps({ locale }: GetStaticPropsContext) {
+  const products = await getProducts(locale);
   return {
     props: {
-      products
+      products,
+      ...await serverSideTranslations(locale || '', ['common', 'home', 'navigation']),
     }
   };
 }

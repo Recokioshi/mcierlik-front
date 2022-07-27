@@ -1,0 +1,11 @@
+{
+  "home": "Główna",
+  "products": "Produkty",
+  "about": "O nas",
+  "contact": "Kontakt",
+  "languages": {
+    "pl": "Polski",
+    "en": "Angielski",
+    "de": "Niemiecki"
+  }
+}

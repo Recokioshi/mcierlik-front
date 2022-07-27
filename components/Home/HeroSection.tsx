@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'next-i18next';
 import { createStyles, Container, Title, Text, Button } from '@mantine/core';
 import Link from 'next/link';
 
@@ -89,6 +90,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function HeroSection() {
+  const { t } = useTranslation('home');
   const { classes } = useStyles();
   return (
     <div className={classes.root}>
@@ -96,20 +98,20 @@ export function HeroSection() {
         <div className={classes.inner}>
           <div className={classes.content}>
             <Title className={classes.title}>
-              A{' '}
+              {t('hero.header-prefix')}
               <Text
                 component="span"
                 inherit
                 variant="gradient"
                 gradient={{ from: 'pink', to: 'yellow' }}
               >
-                perfect companion
-              </Text>{' '}
-              for your workshop
+                {t('hero.header-bolded')}
+              </Text>
+              {t('hero.header-suffix')}
             </Title>
 
             <Text className={classes.description} mt={30}>
-              Top notch quality, hand crafted tools perfectioned to cover your needs.
+            {t('hero.subTitle')}
             </Text>
             <Link href="/products">
               <Button
@@ -119,7 +121,7 @@ export function HeroSection() {
                 className={classes.control}
                 mt={40}
               >
-                Show all products
+                {t('hero.showAllButton')}
               </Button>
             </Link>
           </div>
