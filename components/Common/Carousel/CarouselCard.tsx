@@ -117,7 +117,7 @@ export function CarouselCard({ photo, title, link, onClick, id, description }: C
       {CardContent}
     </Link>
   ) : (
-    <Box className={classes.container}>
+    <Box className={classes.container} style={{ cursor: onClick ? 'pointer' : 'default' }}>
       {CardContent}
     </Box>
   );

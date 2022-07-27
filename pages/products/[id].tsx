@@ -32,6 +32,7 @@ const useStyles = createStyles((theme) => ({
     justifyContent: 'space-between',
     paddingTop: theme.spacing.xl,
     paddingBottom: theme.spacing.xl,
+    gap: theme.spacing.md,
 
     [theme.fn.smallerThan('md')]: {
       flexDirection: 'column-reverse',
@@ -40,7 +41,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   content: {
-    maxWidth: '50%',
+    maxWidth: '47%',
 
     [theme.fn.smallerThan('md')]: {
       maxWidth: '100%',
@@ -113,7 +114,7 @@ export function Product({ product }: { product: Product | null}) {
 
   const galleryPhotos = useMemo(() => {
     return (gallery).map((photo) => (
-      <Grid.Col key={photo.hash} md={4} lg={3} xl={2} onClick={getOnPhotoClick(photo.id)}>
+      <Grid.Col key={photo.hash} md={4} lg={3} xl={2} onClick={getOnPhotoClick(photo.id)} style={{ cursor: 'pointer' }}>
         <StrapiPhoto
           photo={photo}
           width={200}
@@ -146,7 +147,7 @@ export function Product({ product }: { product: Product | null}) {
               opened={opened}
               onClose={() => setOpened(false)}
               target={<Button onClick={() => setOpened((o) => !o)} variant="light">{t('showMore')}</Button>}
-              width={260}
+              width="70%"
               position="bottom"
               withArrow
             >
