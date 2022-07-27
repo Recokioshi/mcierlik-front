@@ -6,14 +6,15 @@ import Carousel from "../Common/Carousel";
 
 export const ProductsCarousel = ({ products }: { products: Product[]}) => {
   const { t } = useTranslation('home');
+  const { t: tc } = useTranslation('common');
   const cards = useMemo(() => 
-    products.map(({ name, shortDescription, photo, id }) => ({
+    products.map(({ name, shortDescription, photo, id, price }) => ({
       title: name,
-      description: shortDescription,
+      description: `${shortDescription} ${price}${tc('currencySuffix')}`,
       link: `/products/${id}`,
       photo: photo,
       id,
-    })), [products]);
+    })), [products, tc]);
 
   return (
     <Container>

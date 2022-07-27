@@ -74,9 +74,10 @@ export interface CarouselCardProps {
   title?: string;
   id: string;
   onClick?: (id: string) => void;
+  description?: string;
 }
 
-export function CarouselCard({ photo, title, link, onClick, id }: CarouselCardProps) {
+export function CarouselCard({ photo, title, link, onClick, id, description }: CarouselCardProps) {
   const { classes } = useStyles();
 
   const handleClick = useCallback(() => {
@@ -96,12 +97,17 @@ export function CarouselCard({ photo, title, link, onClick, id }: CarouselCardPr
         <StrapiPhoto photo={photo} isBackground />
         {title && <div className={classes.overlay} />}
 
-        {title && <div className={classes.content}>
-          <div>
+        {(title || description) && <div className={classes.content}>
+          {title && <div>
             <Text size="lg" className={classes.title} weight={500}>
               {title}
             </Text>
-          </div>
+          </div>}
+          {description && <div>
+            <Text size="xs" className={classes.title} weight={500}>
+              {description}
+            </Text>
+          </div>}
         </div>}
       </Card>
   );

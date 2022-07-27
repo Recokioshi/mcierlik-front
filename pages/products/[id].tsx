@@ -89,6 +89,7 @@ export function Product({ product }: { product: Product | null}) {
   const { classes } = useStyles();
 
   const { t } = useTranslation('products');
+  const { t: tc } = useTranslation('common');
 
   const [opened, setOpened] = useState(false);
   const productDescription = (product?.fullDescription || "").slice(0, MAX_DESCRIPTION_LENGTH);
@@ -137,6 +138,7 @@ export function Product({ product }: { product: Product | null}) {
             <Title className={classes.title}>
               {product?.name}
             </Title>
+            <Text size='xl' weight={700} mt={30}>{product?.price} {tc('currencySuffix')}</Text>
             <Text color="dimmed" mt="md">
               {descriptionExpanded ? productDescription + '...' : productDescription}
             </Text>
@@ -221,7 +223,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   return {
     props: {
       product,
-      ...await serverSideTranslations(locale || '', ['products', 'navigation']),
+      ...await serverSideTranslations(locale || '', ['common', 'products', 'navigation']),
     }
   };
 }

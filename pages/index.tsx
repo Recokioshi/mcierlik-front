@@ -26,7 +26,7 @@ export async function getStaticProps({ locale }: GetStaticPropsContext) {
   return {
     props: {
       products,
-      ...await serverSideTranslations(locale || '', ['home', 'navigation']),
+      ...await serverSideTranslations(locale || '', ['common', 'home', 'navigation']),
     }
   };
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 import { Bookmark, Heart, Share } from 'tabler-icons-react';
 import {
   Card,
@@ -108,15 +109,17 @@ export function ArticleCard({
 }
 
 const Products = ({ products }: { products: Product[]}) => {
+  const { t: tc } = useTranslation('common');
+
   return (
     <Grid justify="center" align="center">
-      {products.map(({ photo, name, shortDescription, id }) => (
+      {products.map(({ photo, name, shortDescription, id, price }) => (
         <Grid.Col key={id} md={4} lg={3} sm={6} xs={8}>
           <ArticleCard
             photo={photo}
             link={`/products/${id}`}
             title={name}
-            description={shortDescription}
+            description={`${shortDescription} - ${price}${tc('currencySuffix')}`}
             rating={"new"}
           />
         </Grid.Col>
@@ -130,7 +133,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
       products,
-      ...await serverSideTranslations(locale || '', ['navigation']),
+      ...await serverSideTranslations(locale || '', ['common', 'navigation']),
     }
   };
 }
