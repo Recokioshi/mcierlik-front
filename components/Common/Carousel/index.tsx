@@ -1,23 +1,26 @@
-import { Box, Button, Container, createStyles, Space, Text, useMantineTheme } from "@mantine/core";
-import { useScrollIntoView } from "@mantine/hooks";
-import { MouseEventHandler, TouchEventHandler, useEffect, useMemo, useRef } from "react";
-import { useMediaQueryForBeakpoint } from "../../../utils/styling";
-import { CarouselCard, CarouselCardProps } from "./CarouselCard";
+import {
+  Box, Button, createStyles, Space,
+} from '@mantine/core';
+import { useScrollIntoView } from '@mantine/hooks';
+import {
+  MouseEventHandler, TouchEventHandler, useEffect, useMemo, useRef,
+} from 'react';
+import { useMediaQueryForBeakpoint } from '../../../utils/styling';
+import { CarouselCard, CarouselCardProps } from './CarouselCard';
 
 const scrollBy = (
   element: HTMLElement,
   offset: number,
-  direction: "left" | "right"
+  direction: 'left' | 'right',
 ) => {
   element.scrollBy({
     top: 0,
-    left: direction === "left" ? -offset : offset,
-    behavior: "smooth",
+    left: direction === 'left' ? -offset : offset,
+    behavior: 'smooth',
   });
 };
 
-
-type CarouselProps = {  
+type CarouselProps = {
   cards: CarouselCardProps[];
   height?: string;
 };
@@ -29,7 +32,7 @@ const useStyles = createStyles((theme) => ({
     padding: 0,
   },
   flexCarousel: {
-    display: "flex",
+    display: 'flex',
     width: '100%',
     height: '100%',
     padding: theme.spacing.xs,
@@ -37,7 +40,7 @@ const useStyles = createStyles((theme) => ({
     scrollBehavior: 'smooth',
     scrollWidth: 'none',
     scrollbarWidth: 'none',
-    '&::-webkit-scrollbar': { 
+    '&::-webkit-scrollbar': {
       display: 'none',
     },
   },
@@ -74,21 +77,23 @@ const Carousel: React.FC<CarouselProps> = ({ cards, height }) => {
   const { classes } = useStyles();
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  const theme = useMantineTheme();
-
   const matchesXl = useMediaQueryForBeakpoint('xl');
   const matchesLg = useMediaQueryForBeakpoint('lg');
   const matchesMd = useMediaQueryForBeakpoint('md');
   const matchesSm = useMediaQueryForBeakpoint('sm');
 
-  const maxItems = (matchesLg || matchesXl) ? 4 : matchesMd ? 3 : matchesSm ? 2 : 1;
-  const itemWidth = useMemo(() => carouselRef.current ? carouselRef.current.clientWidth / maxItems : 0,
-    [maxItems]);
+  const maxItems = ((matchesLg || matchesXl) && 4) || (matchesMd && 3) || (matchesSm && 2) || 1;
+  const itemWidth = useMemo(
+    () => (carouselRef.current ? carouselRef.current.clientWidth / maxItems : 0),
+    [maxItems],
+  );
 
-  const { scrollIntoView, targetRef, scrollableRef, cancel } = useScrollIntoView<HTMLDivElement, HTMLDivElement>({ 
+  const {
+    scrollIntoView, targetRef, scrollableRef, cancel,
+  } = useScrollIntoView<HTMLDivElement, HTMLDivElement>({
     axis: 'x',
     cancelable: false,
-    duration: 7000 * cards.length * 4 / maxItems,
+    duration: (7000 * cards.length) * (4 / maxItems),
     easing: (t: number) => t,
   });
 
@@ -103,9 +108,10 @@ const Carousel: React.FC<CarouselProps> = ({ cards, height }) => {
     }
   }, [scrollIntoView, scrollableRef, shouldShowButtons]);
 
-  const onScrollClick = useMemo(() => (direction: "left" | "right") => 
-    () => scrollBy(carouselRef.current!, itemWidth, direction)
-  , [itemWidth]);
+  const onScrollClick = useMemo(
+    () => (direction: 'left' | 'right') => () => carouselRef.current && scrollBy(carouselRef.current, itemWidth, direction),
+    [itemWidth],
+  );
 
   const onMouseEnter = useMemo<MouseEventHandler<HTMLDivElement>>(() => () => {
     cancel();
@@ -119,7 +125,7 @@ const Carousel: React.FC<CarouselProps> = ({ cards, height }) => {
     <Box className={classes.container}>
       <Box
         className={classes.flexCarousel}
-        sx={{justifyContent: shouldShowButtons ? 'flex-start' : 'center'}}
+        sx={{ justifyContent: shouldShowButtons ? 'flex-start' : 'center' }}
         ref={carouselRef}
         onMouseEnter={onMouseEnter}
         onTouchStart={onTouchStart}
@@ -138,15 +144,15 @@ const Carousel: React.FC<CarouselProps> = ({ cards, height }) => {
       {shouldShowButtons && (
         <>
           <Button variant="outline" color="gray" compact className={classes.buttonLeft} onClick={onScrollClick('left')}>
-            {`<`}
+            {'<'}
           </Button>
           <Button variant="outline" color="gray" compact className={classes.buttonRight} onClick={onScrollClick('right')}>
-            {`>`}
+            {'>'}
           </Button>
         </>
       )}
     </Box>
   );
-}
+};
 
 export default Carousel;

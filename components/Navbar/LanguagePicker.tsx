@@ -1,6 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'next-i18next';
-import { createStyles, UnstyledButton, Menu, Group } from '@mantine/core';
+import {
+  createStyles, UnstyledButton, Menu, Group,
+} from '@mantine/core';
 import { ChevronDown } from 'tabler-icons-react';
 import { useRouter } from 'next/router';
 
@@ -28,11 +30,11 @@ const useStyles = createStyles((theme, { opened }: { opened: boolean }) => ({
     }`,
     transition: 'background-color 150ms ease',
     backgroundColor:
-      theme.colorScheme === 'dark'
-        ? theme.colors.dark[opened ? 5 : 6]
-        : opened
-        ? theme.colors.gray[0]
-        : theme.white,
+      (theme.colorScheme === 'dark'
+        && theme.colors.dark[opened ? 5 : 6])
+        || (opened
+          && theme.colors.gray[0])
+          || theme.white,
 
     '&:hover': {
       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[0],
@@ -52,14 +54,15 @@ const useStyles = createStyles((theme, { opened }: { opened: boolean }) => ({
 
 export function LanguagePicker() {
   const router = useRouter();
-  const { pathname, asPath, query, locale } = router;
+  const {
+    pathname, asPath, query, locale,
+  } = router;
 
   const { t } = useTranslation('navigation');
 
   const [opened, setOpened] = useState(false);
   const { classes } = useStyles({ opened });
   const [selected, setSelected] = useState(data.find(({ code }) => code === locale) || data[0]);
-  
 
   const handleLanguageChange = useCallback((language: LanguageElement) => () => {
     setSelected(language);

@@ -14,18 +14,16 @@ import {
   Space,
   Notification,
   Popper,
-  useMantineTheme,
 } from '@mantine/core';
-import { ContactIconsList } from '../../components/Contact/ContactIconsList';
-import { SocialMediaLinks } from '../../components/SocialMediaLinks';
 import { Check, X } from 'tabler-icons-react';
 import { useClickOutside } from '@mantine/hooks';
 import { useRouter } from 'next/router';
 import { GetStaticProps } from 'next';
+import { SocialMediaLinks } from '../../components/SocialMediaLinks';
+import { ContactIconsList } from '../../components/Contact/ContactIconsList';
 
-const getPreselectedProductMessage = (t: TFunction, product?: string) => 
-  product ?
-  t('rightSection.preselectedProduct', { productName: product }) :  '';
+const getPreselectedProductMessage = (t: TFunction, product?: string) => (product
+  ? t('rightSection.preselectedProduct', { productName: product }) : '');
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -91,23 +89,20 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const onSendEmail = async (email: string, name: string, message: string) => {
-  return await fetch('/api/email', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      email,
-      name,
-      message,
-    }),
-  });
-};
+const onSendEmail = (email: string, name: string, message: string) => fetch('/api/email', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    email,
+    name,
+    message,
+  }),
+});
 
 function ContactUs() {
   const { classes } = useStyles();
-  const theme = useMantineTheme();
 
   const { t } = useTranslation('contact');
 
@@ -133,24 +128,25 @@ function ContactUs() {
     setError('');
     setSentSuccessfully(true);
     onSendEmail(email, name, message).then((res) => {
-    if(res.status === 200) {
-      setEmail('');
-      setName('');
-      setMessage('');
-      setSentSuccessfully(true);
-    }
+      if (res.status === 200) {
+        setEmail('');
+        setName('');
+        setMessage('');
+        setSentSuccessfully(true);
+      }
     }).catch((err) => {
-      console.log(error);
+      console.log(err);
       setError(t('messages.unknownError'));
     });
-  }, [email, name, message, t, error]);
+  }, [email, name, message, t]);
 
   const onInputChange = useCallback(
-    (fieldSetter: React.Dispatch<React.SetStateAction<string>>) => 
+    (fieldSetter: React.Dispatch<React.SetStateAction<string>>) =>
       (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         fieldSetter(event.target.value);
-      }
-    , []);
+      },
+    [],
+  );
 
   return (
     <Container mt={30} mb={30} size="lg">
@@ -204,21 +200,21 @@ function ContactUs() {
               placement="end"
               arrowSize={0}
               mounted={error !== '' || sentSuccessfully}
-              referenceElement={buttonRef.current!}
+              referenceElement={buttonRef.current}
               transition="pop-top-left"
               transitionDuration={200}
             >
-              {error && 
-                <Notification icon={<X size={18} />} color="red" disallowClose={true}>
+              {error
+                && <Notification icon={<X size={18} />} color="red" disallowClose={true}>
                   {error}
                 </Notification>
               }
-              {sentSuccessfully &&
-                <Notification icon={<Check size={18} />} color="teal" title="Success!" disallowClose={true}>
+              {sentSuccessfully
+                && <Notification icon={<Check size={18} />} color="teal" title="Success!" disallowClose={true}>
                   {t('messages.success')}
                 </Notification>
               }
-            </Popper>            
+            </Popper>
           </div>
         </SimpleGrid>
       </div>
@@ -230,7 +226,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => (
   {
     props: {
       ...await serverSideTranslations(locale || '', ['contact', 'navigation']),
-    }
+    },
   }
 );
 

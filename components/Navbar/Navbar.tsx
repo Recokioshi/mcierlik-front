@@ -1,11 +1,12 @@
-/* This example requires Tailwind CSS v2.0+ */
-import logo from '../../assets/images/logo-inverted.png'
 import React, { useMemo } from 'react';
-import { createStyles, Header, Container, Group, Button, Burger, Transition, Paper, Box } from '@mantine/core';
+import {
+  createStyles, Header, Container, Group, Burger, Transition, Paper, Box,
+} from '@mantine/core';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useBooleanToggle } from '@mantine/hooks';
+import logo from '../../assets/images/logo-inverted.png';
 import { LanguagePicker } from './LanguagePicker';
 
 const HEADER_HEIGHT = 80;
@@ -100,7 +101,7 @@ export function Navbar({ links }: HeaderResponsiveProps) {
       key={link.label}
       href={link.link}
     >
-      <div 
+      <div
         className={cx(classes.link, { [classes.linkActive]: active === link.link })}
         onClick={() => {
           toggleOpened(false);
@@ -108,7 +109,7 @@ export function Navbar({ links }: HeaderResponsiveProps) {
       >
         {link.label}
       </div>
-      
+
     </Link>
   ));
 
@@ -147,4 +148,3 @@ export function Navbar({ links }: HeaderResponsiveProps) {
     </Header>
   );
 }
-

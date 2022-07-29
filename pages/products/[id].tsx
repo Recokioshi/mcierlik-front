@@ -16,12 +16,12 @@ import {
   Grid,
 } from '@mantine/core';
 import { Check } from 'tabler-icons-react';
+import Link from 'next/link';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import { getProduct, getProducts } from '../../utils/api/products';
 import { Product } from '../../utils/api/types/cms';
 import { StrapiPhoto } from '../../components/Common/StrapiPhoto';
 import { GalleryCarousel } from '../../components/Common/Carousel/GalleryCarousel';
-import Link from 'next/link';
-import { GetStaticPaths, GetStaticProps } from 'next';
 
 const MAX_DESCRIPTION_LENGTH = 250;
 
@@ -93,7 +93,7 @@ export function Product({ product }: { product: Product | null}) {
   const { t: tc } = useTranslation('common');
 
   const [opened, setOpened] = useState(false);
-  const productDescription = (product?.fullDescription || "").slice(0, MAX_DESCRIPTION_LENGTH);
+  const productDescription = (product?.fullDescription || '').slice(0, MAX_DESCRIPTION_LENGTH);
   const [selectedPhoto, setSelectedPhoto] = useState(product?.photo);
   const descriptionExpanded = product && product.fullDescription.length > MAX_DESCRIPTION_LENGTH;
   const gallery = useMemo(() => {
@@ -105,15 +105,14 @@ export function Product({ product }: { product: Product | null}) {
     const photoFound = gallery.find((photo) => photo.id === id);
     if (photoFound) {
       setSelectedPhoto(photoFound);
-    };
+    }
   }, [gallery]);
 
   const getOnPhotoClick = useCallback((id: string) => () => {
     onPhotoClick(id);
   }, [onPhotoClick]);
 
-  const galleryPhotos = useMemo(() => {
-    return (gallery).map((photo) => (
+  const galleryPhotos = useMemo(() => (gallery).map((photo) => (
       <Grid.Col key={photo.hash} md={4} lg={3} xl={2} onClick={getOnPhotoClick(photo.id)} style={{ cursor: 'pointer' }}>
         <StrapiPhoto
           photo={photo}
@@ -121,8 +120,7 @@ export function Product({ product }: { product: Product | null}) {
           height={200}
         />
       </Grid.Col>
-    ))
-  }, [gallery, getOnPhotoClick]);
+  )), [gallery, getOnPhotoClick]);
 
   return (
       <Container>
@@ -141,9 +139,9 @@ export function Product({ product }: { product: Product | null}) {
             </Title>
             <Text size='xl' weight={700} mt={30}>{product?.price} {tc('currencySuffix')}</Text>
             <Text color="dimmed" mt="md">
-              {descriptionExpanded ? productDescription + '...' : productDescription}
+              {descriptionExpanded ? `${productDescription}...` : productDescription}
             </Text>
-            {descriptionExpanded &&<Popover
+            {descriptionExpanded && <Popover
               opened={opened}
               onClose={() => setOpened(false)}
               target={<Button onClick={() => setOpened((o) => !o)} variant="light">{t('showMore')}</Button>}
@@ -187,8 +185,8 @@ export function Product({ product }: { product: Product | null}) {
               </Link>
             </Group>
           </div>
-          <Box sx={{ width: '100%'}}>
-            {selectedPhoto && <StrapiPhoto 
+          <Box sx={{ width: '100%' }}>
+            {selectedPhoto && <StrapiPhoto
               photo={selectedPhoto}
               width={480}
               height={480}
@@ -209,24 +207,40 @@ export function Product({ product }: { product: Product | null}) {
 
 export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
   const paths: Array<string | { params: { id: string}; locale?: string }> = [];
-  for (const locale of locales || []) {
-    const products = await getProducts(locale);
-    for (const product of products) {
-      paths.push({ params: { id: `${product.id}` }, locale });
+  const productsPromises = [];
+  if (!locales) {
+    return { paths, fallback: true };
+  }
+  for (let i = 0; i < locales.length; i++) {
+    const locale = locales[i];
+    productsPromises.push(getProducts(locale));
+  }
+  const products = await Promise.all(productsPromises);
+  for (let i = 0; i < products.length; i++) {
+    const locale = locales[i];
+    const localeProducts = products[i];
+    for (let j = 0; j < localeProducts.length; j++) {
+      const product = localeProducts[j];
+      paths.push({
+        params: {
+          id: `${product.id}`,
+        },
+        locale,
+      });
     }
-  };
+  }
 
-  return { paths, fallback: false }
-}
+  return { paths, fallback: false };
+};
 
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
-  const product = await getProduct(`${params?.id}`, locale)
+  const product = await getProduct(`${params?.id}`, locale);
   return {
     props: {
       product,
       ...await serverSideTranslations(locale || '', ['common', 'products', 'navigation']),
-    }
+    },
   };
-}
+};
 
-export default Product
+export default Product;

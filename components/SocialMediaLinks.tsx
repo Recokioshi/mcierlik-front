@@ -22,5 +22,5 @@ export const SocialMediaLinks: React.FC<SocialMediaLinksProps> = ({ className = 
     <Group spacing={0} noWrap className={className} {...rest}>
       {linksComponents}
     </Group>
-  )
-}
+  );
+};

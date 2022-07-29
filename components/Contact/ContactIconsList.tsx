@@ -1,8 +1,11 @@
-import React from 'react';
-import { createStyles, ThemeIcon, Text, Group, SimpleGrid, Box } from '@mantine/core';
-import { Sun, Phone, MapPin, At } from 'tabler-icons-react';
+import React, { SVGAttributes } from 'react';
+import {
+  createStyles, ThemeIcon, Text, Group, Box,
+} from '@mantine/core';
+import {
+  Sun, Phone, MapPin, At,
+} from 'tabler-icons-react';
 import { useTranslation } from 'next-i18next';
-
 
 type ContactIconVariant = 'white' | 'gradient';
 
@@ -22,8 +25,8 @@ const useStyles = createStyles((theme, { variant }: ContactIconStyles) => ({
     backgroundImage:
       variant === 'gradient'
         ? `linear-gradient(135deg, ${theme.colors[theme.primaryColor][4]} 0%, ${
-            theme.colors[theme.primaryColor][6]
-          } 100%)`
+          theme.colors[theme.primaryColor][6]
+        } 100%)`
         : 'none',
     backgroundColor: 'transparent',
   },
@@ -37,8 +40,12 @@ const useStyles = createStyles((theme, { variant }: ContactIconStyles) => ({
   },
 }));
 
+type IconProps = SVGAttributes<SVGElement> & {
+  color?: string;
+  size?: string | number;
+}
 interface ContactIconProps extends Omit<React.ComponentPropsWithoutRef<'div'>, 'title'> {
-  icon: React.FC<any>;
+  icon: React.FC<IconProps>;
   title: React.ReactNode;
   description: React.ReactNode;
   variant?: ContactIconVariant;
@@ -87,14 +94,13 @@ const MOCKDATA = [
   { title: 'workingHoursLabel', description: '4 p.m. – 9 p.m.', icon: Sun },
 ];
 
-export function ContactIconsList({ data = MOCKDATA, variant}: ContactIconsListProps) {
+export function ContactIconsList({ data = MOCKDATA, variant }: ContactIconsListProps) {
   const { t } = useTranslation('contact');
-  const items = data.map(({title, ...rest}, index) => 
-    <ContactIcon
-      key={index} 
+  const items = data.map(({ title, ...rest }, index) => <ContactIcon
+      key={index}
       variant={variant}
       title={t(`leftSection.${title}`)}
-      {...rest} 
+      {...rest}
     />);
   return <Group direction="column">{items}</Group>;
 }

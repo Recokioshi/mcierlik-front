@@ -7,7 +7,7 @@
     "showAllButton": "Pokaż wszystkie produkty"
   },
   "carousel": {
-    "header": "Sprawdź nasze najnowsze produkty"
+    "header": "Sprawdź ofertę"
   },
   "featurePoints": {
     "first": {
@@ -20,7 +20,7 @@
     },
     "third": {
       "header": "Oszczędność w czasie",
-      "subTitle": "Dzięki bezkonkurencyjnej jakości i trwałości naszych podzespołów, możesz być pewien, że otrzymasz produkt który będzie toważyszył Ci latami."
+      "subTitle": "Dzięki bezkonkurencyjnej jakości i trwałości naszych podzespołów, możesz być pewien, że otrzymasz produkt który będzie towarzyszył Ci latami."
     }
   }
 }

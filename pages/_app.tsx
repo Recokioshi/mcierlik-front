@@ -1,18 +1,17 @@
-import '../styles/globals.css'
-import { appWithTranslation } from 'next-i18next';
-import { useTranslation } from 'next-i18next';
-import type { AppProps } from 'next/app'
+import '../styles/globals.css';
+import { appWithTranslation, useTranslation } from 'next-i18next';
+import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { Navbar} from '../components/Navbar/Navbar'
-import { Footer } from '../components/Footer/Footer'
 import { Container, MantineProvider } from '@mantine/core';
+import { Navbar } from '../components/Navbar/Navbar';
+import { Footer } from '../components/Footer/Footer';
 
 const navbarLinks = [
   { link: '/', label: 'home' },
   { link: '/products', label: 'products' },
   { link: '/about', label: 'about' },
   { link: '/contact', label: 'contact' },
-]
+];
 
 const footerHeight = 60;
 
@@ -44,7 +43,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Footer footerHeight={footerHeight}/>
       </MantineProvider>
     </>
-  )
+  );
 }
 
 export default appWithTranslation(MyApp);
