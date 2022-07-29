@@ -1,0 +1,23 @@
+{
+  "subTitle": "Who are we?",
+  "title": "Local manufacture, not the next Chinese importer",
+  "description": "We create our products by hand with passion and commitment. We believe that such products should be available to everyone. We do not want anyone to spend a fortune on good equipment. That is why our products are available to everyone.",
+  "points": {
+    "first": {
+      "title": "Own production",
+      "description": "All the products we offer are manufactured by ourselves. We do not buy finished products from Chinese importers, but we create them ourselves. Thanks to this, we can provide the highest quality and the highest level of service."
+    },
+    "second": {
+      "title": "We do not age the products",
+      "description": "We don't want our products to be just a trend, so we don't age them all. All the products we offer are manufactured with a long service life in mind. So you can be sure your products will look just as good in a few years and now. "
+    },
+    "third": {
+      "title": "We are the client",
+      "description": "We believe that the best way to create a good product is to be a customer. That is why each of our employees is a customer of our products. This way we know what is needed and what is not."
+    },
+    "fourth": {
+      "title": "We support local producers",
+      "description": "We believe local producers are the best way to create a good product. So we support local producers to grow and create the items they need."
+    }
+  }
+}

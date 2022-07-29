@@ -1,0 +1,24 @@
+{
+  "subTitle": "Kim jesteśmy?",
+  "title": "Lokalna manufaktura, nie następny chiński importer",
+  "description": "Swoje produkty tworzymy ręcznie z pasją i zaangażowaniem. Wierzymy, że to właśnie takie produkty powinny być dostępne dla każdego. Nie chcemy, aby ktoś musiał wydać fortunę na dobry sprzęt. Dlatego też nasze produkty są dostępne dla każdego.",
+  "points": {
+    "first": {
+      "title": "Własna produkcja",
+      "description": "Wszystkie produkty, które oferujemy, są produkowane przez nas samych. Nie kupujemy gotowych produktów od chińskich importerów, a tworzymy je sami. Dzięki temu możemy zapewnić najwyższą jakość i najwyższy poziom obsługi."
+    },
+    "second": {
+      "title": "Nie postarzamy produktów",
+      "description": "Nie chcemy, aby nasze produkty były tylko trendem. Dlatego też nie postarzamy ich. Wszystkie produkty, które oferujemy, są produkowane z myślą o długim okresie użytkowania. Dzięki temu możesz być pewien, że Twoje produkty będą wyglądać tak samo dobrze za kilka lat, jak i teraz."
+    },
+    "third": {
+      "title": "Także jesteśmy klientem",
+      "description": "Wierzymy, że najlepszym sposobem na stworzenie dobrego produktu jest to, żeby być jego klientem. Dlatego też każdy z naszych pracowników jest klientem naszych produktów. Dzięki temu wiemy, co jest potrzebne, a co nie."
+    },
+    "fourth": {
+      "title": "Wspieramy lokalnych producentów",
+      "description": "Wierzymy, że lokalni producentci są najlepszym sposobem na stworzenie dobrego produktu. Dlatego też wspieramy lokalnych producentów, aby mogli rozwijać się i tworzyć elementy, które są potrzebne."
+    }
+  }
+}
+
