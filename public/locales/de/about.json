@@ -1,0 +1,23 @@
+{
+  "subTitle": "Wer sind wir?",
+  "title": "Lokale Herstellung, nicht der nächste chinesische Importeur",
+  "description": "Wir stellen unsere Produkte mit Leidenschaft und Engagement von Hand her. Wir glauben, dass solche Produkte für jeden verfügbar sein sollten. Wir möchten nicht, dass jemand ein Vermögen für gute Ausrüstung ausgibt. Deshalb sind unsere Produkte für jedermann verfügbar. ",
+  "points": {
+    "first": {
+      "title": "Eigene Produktion",
+      "description": "Alle Produkte, die wir anbieten, werden von uns selbst hergestellt. Wir kaufen keine fertigen Produkte von chinesischen Importeuren, sondern stellen sie selbst her. Dadurch können wir höchste Qualität und Service auf höchstem Niveau bieten."
+    },
+    "second": {
+      "title": "Wir altern die Produkte nicht",
+      "description": "Wir wollen nicht, dass unsere Produkte nur ein Trend sind, deshalb lassen wir sie nicht alle altern. Alle Produkte, die wir anbieten, werden mit Blick auf eine lange Lebensdauer hergestellt. Sie können also sicher sein, dass Ihre Produkte dies tun werden in ein paar Jahren genauso gut aussehen und jetzt."
+    },
+    "third": {
+      "title": "Wir sind der Kunde",
+      "description": "Wir glauben, dass der beste Weg, ein gutes Produkt zu schaffen, darin besteht, Kunde zu sein. Deshalb ist jeder unserer Mitarbeiter ein Kunde unserer Produkte. Auf diese Weise wissen wir, was gebraucht wird und was nicht."
+    },
+    "fourth": {
+      "title": "Wir unterstützen lokale Produzenten",
+      "description": "Wir glauben, dass lokale Produzenten der beste Weg sind, um ein gutes Produkt herzustellen. Deshalb unterstützen wir lokale Produzenten dabei, zu wachsen und die Artikel herzustellen, die sie benötigen."
+    }
+  }
+}
