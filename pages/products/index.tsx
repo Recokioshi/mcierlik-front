@@ -12,11 +12,11 @@ import {
   createStyles,
   Grid,
 } from '@mantine/core';
-import { getProducts } from '../../utils/api/products';
 import Link from 'next/link';
+import { GetStaticProps } from 'next';
+import { getProducts } from '../../utils/api/products';
 import { Photo, Product } from '../../utils/api/types/cms';
 import { StrapiPhoto } from '../../components/Common/StrapiPhoto';
-import { GetStaticProps } from 'next';
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -113,20 +113,22 @@ const Products = ({ products }: { products: Product[]}) => {
 
   return (
     <Grid justify="center" align="center">
-      {products.map(({ photo, name, shortDescription, id, price }) => (
+      {products.map(({
+        photo, name, shortDescription, id, price,
+      }) => (
         <Grid.Col key={id} md={4} lg={3} sm={6} xs={8}>
           <ArticleCard
             photo={photo}
             link={`/products/${id}`}
             title={name}
             description={`${shortDescription} - ${price}${tc('currencySuffix')}`}
-            rating={"new"}
+            rating={'new'}
           />
         </Grid.Col>
       ))}
     </Grid>
   );
-}
+};
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const products = await getProducts(locale);
@@ -134,8 +136,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     props: {
       products,
       ...await serverSideTranslations(locale || '', ['common', 'navigation']),
-    }
+    },
   };
-}
+};
 
 export default Products;

@@ -1,13 +1,12 @@
-
-import sendgrid from "@sendgrid/mail";
-import type { NextApiRequest, NextApiResponse } from 'next'
+import sendgrid from '@sendgrid/mail';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 sendgrid.setApiKey(process.env.SENDGRID_API || '');
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const {email, name, message}=req.body;
-  
-  try{
+  const { email, name, message } = req.body;
+
+  try {
     await sendgrid.send({
       to: process.env.MAIL,
       from: process.env.MAIL || '',
@@ -51,13 +50,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       </body>
       </html>`,
     });
-  }
-  catch(e)
-  {
+  } catch (e) {
     const error = e as sendgrid.ResponseError;
     console.error(error.toString());
     return res.status(500).json({ error: error.message });
   }
-  
-  res.status(200).end(JSON.stringify({ message:'Send Mail' }))
- }
+
+  return res.status(200).end(JSON.stringify({ message: 'Send Mail' }));
+}

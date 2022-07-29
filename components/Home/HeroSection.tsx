@@ -1,11 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'next-i18next';
-import { createStyles, Container, Title, Text, Button } from '@mantine/core';
+import {
+  createStyles, Container, Title, Text, Button,
+} from '@mantine/core';
 import Link from 'next/link';
 
-
-<a href="https://icons8.com/photos">Photo from Icons8 Moose</a>
-
+<a href="https://icons8.com/photos">Photo from Icons8 Moose</a>;
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -86,7 +86,7 @@ const useStyles = createStyles((theme) => ({
     display: 'flex',
     width: '100%',
     justifyContent: 'flex-end',
-  }
+  },
 }));
 
 export function HeroSection() {

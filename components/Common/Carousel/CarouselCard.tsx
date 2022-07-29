@@ -1,5 +1,7 @@
 import React, { useCallback } from 'react';
-import { Card, Text, createStyles, Box } from '@mantine/core';
+import {
+  Card, Text, createStyles, Box,
+} from '@mantine/core';
 import Link from 'next/link';
 import { Photo } from '../../../utils/api/types/cms';
 import { StrapiPhoto } from '../StrapiPhoto';
@@ -77,7 +79,9 @@ export interface CarouselCardProps {
   description?: string;
 }
 
-export function CarouselCard({ photo, title, link, onClick, id, description }: CarouselCardProps) {
+export function CarouselCard({
+  photo, title, link, onClick, id, description,
+}: CarouselCardProps) {
   const { classes } = useStyles();
 
   const handleClick = useCallback(() => {
@@ -85,7 +89,7 @@ export function CarouselCard({ photo, title, link, onClick, id, description }: C
       onClick(id);
     }
   }, [id, onClick]);
-  
+
   const CardContent = (
     <Card
         p="lg"
@@ -113,6 +117,7 @@ export function CarouselCard({ photo, title, link, onClick, id, description }: C
   );
 
   return link ? (
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- link is checked
     <Link href={link!} className={classes.container}>
       {CardContent}
     </Link>
