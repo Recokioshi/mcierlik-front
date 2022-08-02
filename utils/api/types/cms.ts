@@ -56,6 +56,12 @@ export type Product = Omit<ProductAttributes, 'photo' | 'gallery' | 'features' |
   colors: Record<string, Color>,
 }
 
+export type CartProduct = {
+  id: Product['id'],
+  quantity: number,
+  color: string,
+}
+
 export type Role = {
 }
 
