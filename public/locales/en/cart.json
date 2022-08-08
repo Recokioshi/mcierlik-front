@@ -1,0 +1,15 @@
+{
+  "list": {
+    "header": "CART",
+    "empty": "Cart is empty",
+    "clearCart": "Clear cart"
+  },
+  "sum": {
+    "header": "SUMMARY",
+    "total": "Total",
+    "tax": "Tax",
+    "shipping": "Shipping",
+    "grandTotal": "Grand Total",
+    "toCheckout": "To the checkout"
+  }
+}

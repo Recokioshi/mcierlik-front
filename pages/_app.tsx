@@ -5,17 +5,21 @@ import Head from 'next/head';
 import { Container, MantineProvider } from '@mantine/core';
 import { Navbar } from '../components/Navbar/Navbar';
 import { Footer } from '../components/Footer/Footer';
+import { LINKS } from '../utils/constants/links';
+import { wrapper } from '../store/store';
+import { useLocalStorageStore } from '../store/useLocalStorageStore';
 
 const navbarLinks = [
-  { link: '/', label: 'home' },
-  { link: '/products', label: 'products' },
-  { link: '/about', label: 'about' },
-  { link: '/contact', label: 'contact' },
+  { link: LINKS.HOME, label: 'home' },
+  { link: LINKS.PRODUCTS, label: 'products' },
+  { link: LINKS.ABOUT, label: 'about' },
+  { link: LINKS.CONTACT, label: 'contact' },
 ];
 
 const footerHeight = 60;
 
 function MyApp({ Component, pageProps }: AppProps) {
+  useLocalStorageStore('store');
   const { t } = useTranslation('navigation');
   const translatedLinks = navbarLinks.map(({ link, label }) => ({
     link,
@@ -46,4 +50,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-export default appWithTranslation(MyApp);
+export default appWithTranslation(wrapper.withRedux(MyApp));

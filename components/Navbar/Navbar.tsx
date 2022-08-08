@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
-  createStyles, Header, Container, Group, Burger, Transition, Paper, Box,
+  Box, Burger, Container, createStyles, Group, Header, Paper, Transition,
 } from '@mantine/core';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -8,6 +8,8 @@ import { useRouter } from 'next/router';
 import { useBooleanToggle } from '@mantine/hooks';
 import logo from '../../assets/images/logo-inverted.png';
 import { LanguagePicker } from './LanguagePicker';
+import { Cart } from './CartIcon';
+import { LINKS } from '../../utils/constants/links';
 
 const HEADER_HEIGHT = 80;
 
@@ -44,6 +46,13 @@ const useStyles = createStyles((theme) => ({
     [theme.fn.smallerThan('sm')]: {
       display: 'none',
     },
+  },
+
+  mobileWrapper: {
+    display: 'flex',
+    gap: theme.spacing.md,
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 
   burger: {
@@ -96,22 +105,28 @@ export function Navbar({ links }: HeaderResponsiveProps) {
 
   const active = useMemo(() => `/${router.pathname.split('/')[1]}`, [router.pathname]);
 
-  const items = links.map((link) => (
+  const toggle = useCallback(() => {
+    toggleOpened();
+  }, [toggleOpened]);
+
+  const handleClose = useCallback(() => {
+    toggleOpened(false);
+  }, [toggleOpened]);
+
+  const items = useMemo(() => links.map((link) => (
     <Link
       key={link.label}
       href={link.link}
     >
       <div
         className={cx(classes.link, { [classes.linkActive]: active === link.link })}
-        onClick={() => {
-          toggleOpened(false);
-        }}
+        onClick={handleClose}
       >
         {link.label}
       </div>
 
     </Link>
-  ));
+  )), [active, classes.link, classes.linkActive, cx, handleClose, links]);
 
   return (
     <Header height={HEADER_HEIGHT} className={classes.root}>
@@ -127,14 +142,15 @@ export function Navbar({ links }: HeaderResponsiveProps) {
           {items}
         </Group>
 
-        <Box>
+        <Box className={classes.mobileWrapper} >
+          <Cart active={active === LINKS.CART}/>
+          <LanguagePicker />
           <Burger
             opened={opened}
-            onClick={() => toggleOpened()}
+            onClick={toggle}
             className={classes.burger}
             size="sm"
           />
-          <LanguagePicker />
         </Box>
 
         <Transition transition="pop-top-right" duration={50} mounted={opened}>

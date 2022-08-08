@@ -70,6 +70,14 @@ export function LanguagePicker() {
     router.push({ pathname, query }, asPath, { locale: language.code });
   }, [asPath, pathname, query, router]);
 
+  const onOpen = useCallback(() => {
+    setOpened(true);
+  }, [setOpened]);
+
+  const onClose = useCallback(() => {
+    setOpened(false);
+  }, [setOpened]);
+
   const items = data.map((item) => (
     <Menu.Item
       onClick={handleLanguageChange(item)}
@@ -83,8 +91,8 @@ export function LanguagePicker() {
     <Menu
       transition="pop"
       transitionDuration={150}
-      onOpen={() => setOpened(true)}
-      onClose={() => setOpened(false)}
+      onOpen={onOpen}
+      onClose={onClose}
       radius="md"
       control={
         <UnstyledButton className={classes.control}>
