@@ -18,10 +18,12 @@ import {
 import { Check } from 'tabler-icons-react';
 import Link from 'next/link';
 import { GetStaticPaths, GetStaticProps } from 'next';
+import { useDispatch } from 'react-redux';
 import { getProduct, getProducts } from '../../utils/api/products';
 import { Product } from '../../utils/api/types/cms';
 import { StrapiPhoto } from '../../components/Common/StrapiPhoto';
 import { GalleryCarousel } from '../../components/Common/Carousel/GalleryCarousel';
+import { setProduct } from '../../store/cartSlice';
 
 const MAX_DESCRIPTION_LENGTH = 250;
 
@@ -89,13 +91,19 @@ const useStyles = createStyles((theme) => ({
 export function Product({ product }: { product: Product | null}) {
   const { classes } = useStyles();
 
+  const dispatch = useDispatch();
+
   const { t } = useTranslation('products');
   const { t: tc } = useTranslation('common');
 
   const [opened, setOpened] = useState(false);
-  const productDescription = (product?.fullDescription || '').slice(0, MAX_DESCRIPTION_LENGTH);
+  const productDescription = useMemo(() => (product?.fullDescription || '').slice(0, MAX_DESCRIPTION_LENGTH), [product]);
   const [selectedPhoto, setSelectedPhoto] = useState(product?.photo);
-  const descriptionExpanded = product && product.fullDescription.length > MAX_DESCRIPTION_LENGTH;
+  const descriptionExpanded = useMemo(
+    () => product && product.fullDescription.length > MAX_DESCRIPTION_LENGTH,
+    [product],
+  );
+
   const gallery = useMemo(() => {
     const baseArray = [...(product?.gallery || [])];
     return product?.photo ? [product.photo, ...baseArray] : baseArray;
@@ -112,6 +120,19 @@ export function Product({ product }: { product: Product | null}) {
     onPhotoClick(id);
   }, [onPhotoClick]);
 
+  const onAddToCart = useCallback(
+    () => {
+      if (product) {
+        dispatch(setProduct({ id: product.id, quantity: 1, color: product.colors[0] }));
+      }
+    },
+    [dispatch, product],
+  );
+
+  const onCloseDescription = useCallback(() => setOpened(false), []);
+
+  const toggleSetOpened = useCallback(() => setOpened(!opened), [opened]);
+
   const galleryPhotos = useMemo(() => (gallery).map((photo) => (
       <Grid.Col key={photo.hash} md={4} lg={3} xl={2} onClick={getOnPhotoClick(photo.id)} style={{ cursor: 'pointer' }}>
         <StrapiPhoto
@@ -121,6 +142,12 @@ export function Product({ product }: { product: Product | null}) {
         />
       </Grid.Col>
   )), [gallery, getOnPhotoClick]);
+
+  const closeDescriptionTarget = useMemo(
+    () =>
+      <Button onClick={toggleSetOpened} variant="light">{t('showMore')}</Button>,
+    [t, toggleSetOpened],
+  );
 
   return (
       <Container>
@@ -143,8 +170,8 @@ export function Product({ product }: { product: Product | null}) {
             </Text>
             {descriptionExpanded && <Popover
               opened={opened}
-              onClose={() => setOpened(false)}
-              target={<Button onClick={() => setOpened((o) => !o)} variant="light">{t('showMore')}</Button>}
+              onClose={onCloseDescription}
+              target={closeDescriptionTarget}
               width="70%"
               position="bottom"
               withArrow
@@ -175,11 +202,12 @@ export function Product({ product }: { product: Product | null}) {
               {/* <Button radius="xl" size="md" className={classes.control}>
                 {t('buyNow')}
               </Button>
-              <Button variant="default" radius="xl" size="md" className={classes.control}>
+              */}
+              <Button radius="xl" size="md" className={classes.control} onClick={onAddToCart}>
                 {t('addToCart')}
-              </Button> */}
+              </Button>
               <Link href={`/contact?product=${product?.name}`} passHref>
-                <Button radius="xl" size="md" className={classes.control}>
+                <Button radius="xl" variant="default" size="md" className={classes.control}>
                   {t('askButton')}
                 </Button>
               </Link>

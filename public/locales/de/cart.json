@@ -1,0 +1,15 @@
+{
+  "list": {
+    "header": "WARENKORB",
+    "empty": "Warenkorb ist leer",
+    "clearCart": "Warenkorb leeren"
+  },
+  "sum": {
+    "header": "ZUSAMMENFASSUNG",
+    "total": "Summe",
+    "tax": "Steuer",
+    "shipping": "Lieferung",
+    "grandTotal": "Gesamtsumme",
+    "toCheckout": "Zur Kasse"
+  }
+}

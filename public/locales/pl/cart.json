@@ -1,0 +1,15 @@
+{
+  "list": {
+    "header": "KOSZYK",
+    "empty": "Koszyk jest pusty",
+    "clearCart": "Wyczyść koszyk"
+  },
+  "sum": {
+    "header": "PODSUMOWANIE",
+    "total": "Suma",
+    "tax": "Podatek",
+    "shipping": "Dostawa",
+    "grandTotal": "Suma całkowita",
+    "toCheckout": "Do kasy"
+  }
+}
