@@ -100,7 +100,7 @@ export function Product({ product }: { product: Product | null}) {
   const productDescription = useMemo(() => (product?.fullDescription || '').slice(0, MAX_DESCRIPTION_LENGTH), [product]);
   const [selectedPhoto, setSelectedPhoto] = useState(product?.photo);
   const descriptionExpanded = useMemo(
-    () => product && product.fullDescription.length > MAX_DESCRIPTION_LENGTH,
+    () => product && product.fullDescription?.length > MAX_DESCRIPTION_LENGTH,
     [product],
   );
 

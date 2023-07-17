@@ -130,7 +130,7 @@ export const CartList: React.FC<CartListProps> = ({
             size="sm"
             variant="subtle"
             disabled={itemsCount === 0}
-            title={tCommon('list.clearCart')}
+            title={t('list.clearCart')}
           >
             <ShoppingCartOff />
           </Button>
