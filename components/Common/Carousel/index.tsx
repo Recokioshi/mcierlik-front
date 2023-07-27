@@ -1,18 +1,10 @@
-import {
-  Box, Button, createStyles, Space,
-} from '@mantine/core';
+import { Box, Button, createStyles, Space } from '@mantine/core';
 import { useScrollIntoView } from '@mantine/hooks';
-import {
-  MouseEventHandler, TouchEventHandler, useEffect, useMemo, useRef,
-} from 'react';
-import { useMediaQueryForBeakpoint } from '../../../utils/styling';
+import { MouseEventHandler, TouchEventHandler, useEffect, useMemo, useRef } from 'react';
+import { useMediaQueryForBreakpoint } from '../../../utils/styling';
 import { CarouselCard, CarouselCardProps } from './CarouselCard';
 
-const scrollBy = (
-  element: HTMLElement,
-  offset: number,
-  direction: 'left' | 'right',
-) => {
+const scrollBy = (element: HTMLElement, offset: number, direction: 'left' | 'right') => {
   element.scrollBy({
     top: 0,
     left: direction === 'left' ? -offset : offset,
@@ -77,23 +69,18 @@ const Carousel: React.FC<CarouselProps> = ({ cards, height }) => {
   const { classes } = useStyles();
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  const matchesXl = useMediaQueryForBeakpoint('xl');
-  const matchesLg = useMediaQueryForBeakpoint('lg');
-  const matchesMd = useMediaQueryForBeakpoint('md');
-  const matchesSm = useMediaQueryForBeakpoint('sm');
+  const matchesXl = useMediaQueryForBreakpoint('xl');
+  const matchesLg = useMediaQueryForBreakpoint('lg');
+  const matchesMd = useMediaQueryForBreakpoint('md');
+  const matchesSm = useMediaQueryForBreakpoint('sm');
 
   const maxItems = ((matchesLg || matchesXl) && 4) || (matchesMd && 3) || (matchesSm && 2) || 1;
-  const itemWidth = useMemo(
-    () => (carouselRef.current ? carouselRef.current.clientWidth / maxItems : 0),
-    [maxItems],
-  );
+  const itemWidth = useMemo(() => (carouselRef.current ? carouselRef.current.clientWidth / maxItems : 0), [maxItems]);
 
-  const {
-    scrollIntoView, targetRef, scrollableRef, cancel,
-  } = useScrollIntoView<HTMLDivElement, HTMLDivElement>({
+  const { scrollIntoView, targetRef, scrollableRef, cancel } = useScrollIntoView<HTMLDivElement, HTMLDivElement>({
     axis: 'x',
     cancelable: false,
-    duration: (7000 * cards.length) * (4 / maxItems),
+    duration: 7000 * cards.length * (4 / maxItems),
     easing: (t: number) => t,
   });
 
@@ -109,17 +96,24 @@ const Carousel: React.FC<CarouselProps> = ({ cards, height }) => {
   }, [scrollIntoView, scrollableRef, shouldShowButtons]);
 
   const onScrollClick = useMemo(
-    () => (direction: 'left' | 'right') => () => carouselRef.current && scrollBy(carouselRef.current, itemWidth, direction),
+    () => (direction: 'left' | 'right') => () =>
+      carouselRef.current && scrollBy(carouselRef.current, itemWidth, direction),
     [itemWidth],
   );
 
-  const onMouseEnter = useMemo<MouseEventHandler<HTMLDivElement>>(() => () => {
-    cancel();
-  }, [cancel]);
+  const onMouseEnter = useMemo<MouseEventHandler<HTMLDivElement>>(
+    () => () => {
+      cancel();
+    },
+    [cancel],
+  );
 
-  const onTouchStart = useMemo<TouchEventHandler<HTMLDivElement>>(() => () => {
-    cancel();
-  }, [cancel]);
+  const onTouchStart = useMemo<TouchEventHandler<HTMLDivElement>>(
+    () => () => {
+      cancel();
+    },
+    [cancel],
+  );
 
   return (
     <Box className={classes.container}>
@@ -146,7 +140,13 @@ const Carousel: React.FC<CarouselProps> = ({ cards, height }) => {
           <Button variant="outline" color="gray" compact className={classes.buttonLeft} onClick={onScrollClick('left')}>
             {'<'}
           </Button>
-          <Button variant="outline" color="gray" compact className={classes.buttonRight} onClick={onScrollClick('right')}>
+          <Button
+            variant="outline"
+            color="gray"
+            compact
+            className={classes.buttonRight}
+            onClick={onScrollClick('right')}
+          >
             {'>'}
           </Button>
         </>

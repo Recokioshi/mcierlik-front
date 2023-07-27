@@ -1,0 +1,45 @@
+{
+  "customerHeader": "Customer Information",
+  "addressHeader": "Address",
+  "description": "Provide your contact information for shipping purposes.",
+    "form": {
+        "firstName": {
+          "label": "First Name",
+          "placeholder": "First Name"
+        },
+        "lastName": {
+          "label": "Last Name",
+          "placeholder": "Last Name"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "Email"
+        },
+        "phone": {
+          "label": "Phone",
+          "placeholder": "Phone"
+        },
+        "street": {
+          "label": "Street",
+          "placeholder": "Street",
+          "description": "Please provide your street address."
+        },
+        "city": {
+          "label": "City",
+          "placeholder": "City"
+        },
+        "state": {
+          "label": "State",
+          "placeholder": "State"
+        },
+        "zip": {
+          "label": "Zip",
+          "placeholder": "Zip"
+        },
+        "country": {
+          "label": "Country",
+          "placeholder": "Country"
+        },
+        "submit": "Next"
+    }
+}

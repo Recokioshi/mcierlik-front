@@ -22,8 +22,8 @@ import { GetStaticProps } from 'next';
 import { SocialMediaLinks } from '../../components/SocialMediaLinks';
 import { ContactIconsList } from '../../components/Contact/ContactIconsList';
 
-const getPreselectedProductMessage = (t: TFunction, product?: string) => (product
-  ? t('rightSection.preselectedProduct', { productName: product }) : '');
+const getPreselectedProductMessage = (t: TFunction, product?: string) =>
+  product ? t('rightSection.preselectedProduct', { productName: product }) : '';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -89,17 +89,18 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const onSendEmail = (email: string, name: string, message: string) => fetch('/api/email', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    email,
-    name,
-    message,
-  }),
-});
+const onSendEmail = (email: string, name: string, message: string) =>
+  fetch('/api/email', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      email,
+      name,
+      message,
+    }),
+  });
 
 function ContactUs() {
   const { classes } = useStyles();
@@ -127,17 +128,19 @@ function ContactUs() {
     }
     setError('');
     setSentSuccessfully(true);
-    onSendEmail(email, name, message).then((res) => {
-      if (res.status === 200) {
-        setEmail('');
-        setName('');
-        setMessage('');
-        setSentSuccessfully(true);
-      }
-    }).catch((err) => {
-      console.log(err);
-      setError(t('messages.unknownError'));
-    });
+    onSendEmail(email, name, message)
+      .then((res) => {
+        if (res.status === 200) {
+          setEmail('');
+          setName('');
+          setMessage('');
+          setSentSuccessfully(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setError(t('messages.unknownError'));
+      });
   }, [email, name, message, t]);
 
   const onInputChange = useCallback(
@@ -158,10 +161,10 @@ function ContactUs() {
               {t('leftSection.headerDescription')}
             </Text>
 
-            <ContactIconsList variant="white"/>
+            <ContactIconsList variant="white" />
 
-            <Space h='lg' />
-            <SocialMediaLinks iconClassName={classes.social}/>
+            <Space h="lg" />
+            <SocialMediaLinks iconClassName={classes.social} />
           </div>
           <div className={classes.form}>
             <TextInput
@@ -193,7 +196,9 @@ function ContactUs() {
             />
 
             <Group position="right" mt="md">
-              <Button className={classes.control} onClick={handleSubmit} ref={buttonRef}>{t('rightSection.sendButton')}</Button>
+              <Button className={classes.control} onClick={handleSubmit} ref={buttonRef}>
+                {t('rightSection.sendButton')}
+              </Button>
             </Group>
             <Popper
               position="bottom"
@@ -204,16 +209,16 @@ function ContactUs() {
               transition="pop-top-left"
               transitionDuration={200}
             >
-              {error
-                && <Notification icon={<X size={18} />} color="red" disallowClose={true}>
+              {error && (
+                <Notification icon={<X size={18} />} color="red" disallowClose={true}>
                   {error}
                 </Notification>
-              }
-              {sentSuccessfully
-                && <Notification icon={<Check size={18} />} color="teal" title="Success!" disallowClose={true}>
+              )}
+              {sentSuccessfully && (
+                <Notification icon={<Check size={18} />} color="teal" title="Success!" disallowClose={true}>
                   {t('messages.success')}
                 </Notification>
-              }
+              )}
             </Popper>
           </div>
         </SimpleGrid>
@@ -222,12 +227,10 @@ function ContactUs() {
   );
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => (
-  {
-    props: {
-      ...await serverSideTranslations(locale || '', ['contact', 'navigation']),
-    },
-  }
-);
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale || '', ['contact', 'navigation'])),
+  },
+});
 
 export default ContactUs;

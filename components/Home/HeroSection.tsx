@@ -1,8 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'next-i18next';
-import {
-  createStyles, Container, Title, Text, Button,
-} from '@mantine/core';
+import { createStyles, Container, Title, Text, Button } from '@mantine/core';
 import Link from 'next/link';
 
 <a href="https://icons8.com/photos">Photo from Icons8 Moose</a>;
@@ -99,19 +97,14 @@ export function HeroSection() {
           <div className={classes.content}>
             <Title className={classes.title}>
               {t('hero.header-prefix')}
-              <Text
-                component="span"
-                inherit
-                variant="gradient"
-                gradient={{ from: 'pink', to: 'yellow' }}
-              >
+              <Text component="span" inherit variant="gradient" gradient={{ from: 'pink', to: 'yellow' }}>
                 {t('hero.header-bolded')}
               </Text>
               {t('hero.header-suffix')}
             </Title>
 
             <Text className={classes.description} mt={30}>
-            {t('hero.subTitle')}
+              {t('hero.subTitle')}
             </Text>
             <Link href="/products">
               <Button

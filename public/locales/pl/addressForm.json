@@ -1,0 +1,45 @@
+{
+  "customerHeader": "Dane kontaktowe",
+  "addressHeader": "Adres",
+  "description": "Podaj swoje dane kontaktowe w celu wysyłki.",
+  "form": {
+    "firstName": {
+      "label": "Imię",
+      "placeholder": "Imię"
+    },
+    "lastName": {
+      "label": "Nazwisko",
+      "placeholder": "Nazwisko"
+    },
+    "email": {
+      "label": "E-mail",
+      "placeholder": "E-mail"
+    },
+    "phone": {
+      "label": "Telefon",
+      "placeholder": "Telefon"
+    },
+    "street": {
+      "label": "Ulica",
+      "placeholder": "Ulica",
+      "description": "Podaj swój adres ulicy."
+    },
+    "city": {
+      "label": "Miasto",
+      "placeholder": "Miasto"
+    },
+    "state": {
+      "label": "Województwo",
+      "placeholder": "Województwo"
+    },
+    "zip": {
+      "label": "Kod pocztowy",
+      "placeholder": "Kod pocztowy"
+    },
+    "country": {
+      "label": "Kraj",
+      "placeholder": "Kraj"
+    },
+    "submit": "Dalej"
+  }
+}

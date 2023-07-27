@@ -5,4 +5,3 @@ export const LINKS = {
   PRODUCTS: '/products',
   CART: '/cart',
 };
-  

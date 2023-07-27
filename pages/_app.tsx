@@ -40,11 +40,11 @@ function MyApp({ Component, pageProps }: AppProps) {
           colorScheme: 'light',
         }}
       >
-        <Navbar links={translatedLinks}/>
+        <Navbar links={translatedLinks} />
         <Container pb={footerHeight} pt="md">
-          <Component {...pageProps}/>
+          <Component {...pageProps} />
         </Container>
-        <Footer footerHeight={footerHeight}/>
+        <Footer footerHeight={footerHeight} />
       </MantineProvider>
     </>
   );

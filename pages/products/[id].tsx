@@ -88,7 +88,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function Product({ product }: { product: Product | null}) {
+export function Product({ product }: { product: Product | null }) {
   const { classes } = useStyles();
 
   const dispatch = useDispatch();
@@ -97,7 +97,10 @@ export function Product({ product }: { product: Product | null}) {
   const { t: tc } = useTranslation('common');
 
   const [opened, setOpened] = useState(false);
-  const productDescription = useMemo(() => (product?.fullDescription || '').slice(0, MAX_DESCRIPTION_LENGTH), [product]);
+  const productDescription = useMemo(
+    () => (product?.fullDescription || '').slice(0, MAX_DESCRIPTION_LENGTH),
+    [product],
+  );
   const [selectedPhoto, setSelectedPhoto] = useState(product?.photo);
   const descriptionExpanded = useMemo(
     () => product && product.fullDescription?.length > MAX_DESCRIPTION_LENGTH,
@@ -109,66 +112,75 @@ export function Product({ product }: { product: Product | null}) {
     return product?.photo ? [product.photo, ...baseArray] : baseArray;
   }, [product?.photo, product?.gallery]);
 
-  const onPhotoClick = useCallback((id: string) => {
-    const photoFound = gallery.find((photo) => photo.id === id);
-    if (photoFound) {
-      setSelectedPhoto(photoFound);
-    }
-  }, [gallery]);
-
-  const getOnPhotoClick = useCallback((id: string) => () => {
-    onPhotoClick(id);
-  }, [onPhotoClick]);
-
-  const onAddToCart = useCallback(
-    () => {
-      if (product) {
-        dispatch(setProduct({ id: product.id, quantity: 1, color: product.colors[0] }));
+  const onPhotoClick = useCallback(
+    (id: string) => {
+      const photoFound = gallery.find((photo) => photo.id === id);
+      if (photoFound) {
+        setSelectedPhoto(photoFound);
       }
     },
-    [dispatch, product],
+    [gallery],
   );
+
+  const getOnPhotoClick = useCallback(
+    (id: string) => () => {
+      onPhotoClick(id);
+    },
+    [onPhotoClick],
+  );
+
+  const onAddToCart = useCallback(() => {
+    if (product) {
+      dispatch(setProduct({ id: product.id, quantity: 1, color: product.colors[0] }));
+    }
+  }, [dispatch, product]);
 
   const onCloseDescription = useCallback(() => setOpened(false), []);
 
   const toggleSetOpened = useCallback(() => setOpened(!opened), [opened]);
 
-  const galleryPhotos = useMemo(() => (gallery).map((photo) => (
-      <Grid.Col key={photo.hash} md={4} lg={3} xl={2} onClick={getOnPhotoClick(photo.id)} style={{ cursor: 'pointer' }}>
-        <StrapiPhoto
-          photo={photo}
-          width={200}
-          height={200}
-        />
-      </Grid.Col>
-  )), [gallery, getOnPhotoClick]);
+  const galleryPhotos = useMemo(
+    () =>
+      gallery.map((photo) => (
+        <Grid.Col
+          key={photo.hash}
+          md={4}
+          lg={3}
+          xl={2}
+          onClick={getOnPhotoClick(photo.id)}
+          style={{ cursor: 'pointer' }}
+        >
+          <StrapiPhoto photo={photo} width={200} height={200} />
+        </Grid.Col>
+      )),
+    [gallery, getOnPhotoClick],
+  );
 
   const closeDescriptionTarget = useMemo(
-    () =>
-      <Button onClick={toggleSetOpened} variant="light">{t('showMore')}</Button>,
+    () => (
+      <Button onClick={toggleSetOpened} variant="light">
+        {t('showMore')}
+      </Button>
+    ),
     [t, toggleSetOpened],
   );
 
   return (
-      <Container>
-        <MediaQuery
-          smallerThan="md"
-          styles={{ display: 'none' }}
-        >
-          <Grid>
-            {galleryPhotos}
-          </Grid>
-        </MediaQuery>
-        <div className={classes.inner}>
-          <div className={classes.content}>
-            <Title className={classes.title}>
-              {product?.name}
-            </Title>
-            <Text size='xl' weight={700} mt={30}>{product?.price} {tc('currencySuffix')}</Text>
-            <Text color="dimmed" mt="md">
-              {descriptionExpanded ? `${productDescription}...` : productDescription}
-            </Text>
-            {descriptionExpanded && <Popover
+    <Container>
+      <MediaQuery smallerThan="md" styles={{ display: 'none' }}>
+        <Grid>{galleryPhotos}</Grid>
+      </MediaQuery>
+      <div className={classes.inner}>
+        <div className={classes.content}>
+          <Title className={classes.title}>{product?.name}</Title>
+          <Text size="xl" weight={700} mt={30}>
+            {product?.price} {tc('currencySuffix')}
+          </Text>
+          <Text color="dimmed" mt="md">
+            {descriptionExpanded ? `${productDescription}...` : productDescription}
+          </Text>
+          {descriptionExpanded && (
+            <Popover
               opened={opened}
               onClose={onCloseDescription}
               target={closeDescriptionTarget}
@@ -176,65 +188,59 @@ export function Product({ product }: { product: Product | null}) {
               position="bottom"
               withArrow
             >
-              <div style={{ display: 'flex' }}>
-                {product?.fullDescription}
-              </div>
-            </Popover>}
+              <div style={{ display: 'flex' }}>{product?.fullDescription}</div>
+            </Popover>
+          )}
 
-            <List
-              mt={30}
-              spacing="sm"
-              size="sm"
-              icon={
-                <ThemeIcon size={20} radius="xl">
-                  <Check size={12} />
-                </ThemeIcon>
-              }
-            >
-              {product?.features.map((feature) => (
-                <List.Item key={feature}>
-                  <b>{feature}</b>
-                </List.Item>
-              ))}
-            </List>
+          <List
+            mt={30}
+            spacing="sm"
+            size="sm"
+            icon={
+              <ThemeIcon size={20} radius="xl">
+                <Check size={12} />
+              </ThemeIcon>
+            }
+          >
+            {product?.features.map((feature) => (
+              <List.Item key={feature}>
+                <b>{feature}</b>
+              </List.Item>
+            ))}
+          </List>
 
-            <Group mt={30}>
-              {/* <Button radius="xl" size="md" className={classes.control}>
+          <Group mt={30}>
+            {/* <Button radius="xl" size="md" className={classes.control}>
                 {t('buyNow')}
               </Button>
               */}
-              <Button radius="xl" size="md" className={classes.control} onClick={onAddToCart}>
-                {t('addToCart')}
+            <Button radius="xl" size="md" className={classes.control} onClick={onAddToCart}>
+              {t('addToCart')}
+            </Button>
+            <Link href={`/contact?product=${product?.name}`} passHref>
+              <Button radius="xl" variant="default" size="md" className={classes.control}>
+                {t('askButton')}
               </Button>
-              <Link href={`/contact?product=${product?.name}`} passHref>
-                <Button radius="xl" variant="default" size="md" className={classes.control}>
-                  {t('askButton')}
-                </Button>
-              </Link>
-            </Group>
-          </div>
-          <Box sx={{ width: '100%' }}>
-            {selectedPhoto && <StrapiPhoto
-              photo={selectedPhoto}
-              width={480}
-              height={480}
-            />}
-            {gallery.length > 1 && <MediaQuery
-              largerThan='md'
-              styles={{ display: 'none', backgroundColor: 'red' }}
-            >
+            </Link>
+          </Group>
+        </div>
+        <Box sx={{ width: '100%' }}>
+          {selectedPhoto && <StrapiPhoto photo={selectedPhoto} width={480} height={480} />}
+          {gallery.length > 1 && (
+            <MediaQuery largerThan="md" styles={{ display: 'none', backgroundColor: 'red' }}>
               <Box>
                 <GalleryCarousel gallery={gallery} onClick={onPhotoClick} />
               </Box>
-            </MediaQuery>}
-          </Box>
-        </div>
-      </Container>
+            </MediaQuery>
+          )}
+        </Box>
+      </div>
+    </Container>
   );
 }
 
 export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
-  const paths: Array<string | { params: { id: string}; locale?: string }> = [];
+  const paths: Array<string | { params: { id: string }; locale?: string }> = [];
   const productsPromises = [];
   if (!locales) {
     return { paths, fallback: true };
@@ -266,7 +272,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   return {
     props: {
       product,
-      ...await serverSideTranslations(locale || '', ['common', 'products', 'navigation']),
+      ...(await serverSideTranslations(locale || '', ['common', 'products', 'navigation'])),
     },
   };
 };

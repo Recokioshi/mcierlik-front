@@ -2,16 +2,7 @@ import React from 'react';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
 import { Bookmark, Heart, Share } from 'tabler-icons-react';
-import {
-  Card,
-  Text,
-  ActionIcon,
-  Badge,
-  Group,
-  useMantineTheme,
-  createStyles,
-  Grid,
-} from '@mantine/core';
+import { Card, Text, ActionIcon, Badge, Group, useMantineTheme, createStyles, Grid } from '@mantine/core';
 import Link from 'next/link';
 import { GetStaticProps } from 'next';
 import { getProducts } from '../../utils/api/products';
@@ -50,7 +41,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface ArticleCardProps {
-  photo: Photo
+  photo: Photo;
   link: string;
   title: string;
   description: string;
@@ -108,14 +99,12 @@ export function ArticleCard({
   );
 }
 
-const Products = ({ products }: { products: Product[]}) => {
+const Products = ({ products }: { products: Product[] }) => {
   const { t: tc } = useTranslation('common');
 
   return (
     <Grid justify="center" align="center">
-      {products.map(({
-        photo, name, shortDescription, id, price,
-      }) => (
+      {products.map(({ photo, name, shortDescription, id, price }) => (
         <Grid.Col key={id} md={4} lg={3} sm={6} xs={8}>
           <ArticleCard
             photo={photo}
@@ -135,7 +124,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
       products,
-      ...await serverSideTranslations(locale || '', ['common', 'navigation']),
+      ...(await serverSideTranslations(locale || '', ['common', 'navigation'])),
     },
   };
 };

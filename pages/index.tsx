@@ -7,16 +7,16 @@ import { ProductsCarousel } from '../components/Home/ProductsCarousel';
 import { getProducts } from '../utils/api/products';
 import { Product } from '../utils/api/types/cms';
 
-type HomeProps = { products: Product[]};
+type HomeProps = { products: Product[] };
 
 const Home: NextPage<HomeProps> = ({ products }) => (
-    <>
-      <HeroSection />
-      <Space h="md" />
-      <ProductsCarousel products={products}/>
-      <Divider my="sm" />
-      <FeaturesSection />
-    </>
+  <>
+    <HeroSection />
+    <Space h="md" />
+    <ProductsCarousel products={products} />
+    <Divider my="sm" />
+    <FeaturesSection />
+  </>
 );
 
 export async function getStaticProps({ locale }: GetStaticPropsContext) {
@@ -24,7 +24,7 @@ export async function getStaticProps({ locale }: GetStaticPropsContext) {
   return {
     props: {
       products,
-      ...await serverSideTranslations(locale || '', ['common', 'home', 'navigation']),
+      ...(await serverSideTranslations(locale || '', ['common', 'home', 'navigation'])),
     },
   };
 }

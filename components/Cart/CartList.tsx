@@ -8,7 +8,8 @@ import {
   Grid,
   NumberInput,
   SimpleGrid,
-  Text, Title,
+  Text,
+  Title,
 } from '@mantine/core';
 import Link from 'next/link';
 import React, { useCallback, useMemo } from 'react';
@@ -69,12 +70,7 @@ type CartListProps = {
   clearProducts: () => void;
 };
 
-export const CartList: React.FC<CartListProps> = ({
-  products,
-  setProduct,
-  deleteProduct,
-  clearProducts,
-}) => {
+export const CartList: React.FC<CartListProps> = ({ products, setProduct, deleteProduct, clearProducts }) => {
   const { classes, cx } = useStyles();
   const { t } = useTranslation('cart');
   const { t: tCommon } = useTranslation('common');
@@ -83,18 +79,22 @@ export const CartList: React.FC<CartListProps> = ({
 
   const productsFromCart = useMemo(
     () =>
-      Object.keys(cart.products).map((productKey) => ({
-        ...cart.products[productKey],
-        product: products.find((product) => product.id === cart.products[productKey].id),
-      })).filter(
-        (product) => product.product !== undefined,
-      ) as (CartProduct & { product: Product })[],
+      Object.keys(cart.products)
+        .map((productKey) => ({
+          ...cart.products[productKey],
+          product: products.find((product) => product.id === cart.products[productKey].id),
+        }))
+        .filter((product) => product.product !== undefined) as (CartProduct & { product: Product })[],
     [cart.products, products],
   );
-  const itemsCount = useMemo(() => Object.keys(cart.products).reduce((sum, productKey) => {
-    const product = cart.products[productKey];
-    return sum + product.quantity;
-  }, 0), [cart]);
+  const itemsCount = useMemo(
+    () =>
+      Object.keys(cart.products).reduce((sum, productKey) => {
+        const product = cart.products[productKey];
+        return sum + product.quantity;
+      }, 0),
+    [cart],
+  );
 
   const addQuantity = useCallback(
     (product: CartProduct) => () => setProduct({ ...product, quantity: product.quantity + 1 }),
@@ -107,16 +107,12 @@ export const CartList: React.FC<CartListProps> = ({
   );
 
   const setQuantity = useCallback(
-    (product: CartProduct) =>
-      (value: number | undefined) =>
-        setProduct({ ...product, quantity: value || product.quantity }),
+    (product: CartProduct) => (value: number | undefined) =>
+      setProduct({ ...product, quantity: value || product.quantity }),
     [setProduct],
   );
 
-  const deleteProductFromCart = useCallback(
-    (product: CartProduct) => () => deleteProduct(product),
-    [deleteProduct],
-  );
+  const deleteProductFromCart = useCallback((product: CartProduct) => () => deleteProduct(product), [deleteProduct]);
 
   return (
     <Container>
@@ -156,11 +152,7 @@ export const CartList: React.FC<CartListProps> = ({
                   </Box>
                   <Card.Section>
                     <Box className={classes.action}>
-                      <Button
-                        onClick={subtractQuantity(cartProduct)}
-                        variant="subtle"
-                        className={classes.button}
-                      >
+                      <Button onClick={subtractQuantity(cartProduct)} variant="subtle" className={classes.button}>
                         -
                       </Button>
                       <NumberInput
@@ -175,11 +167,7 @@ export const CartList: React.FC<CartListProps> = ({
                           },
                         }}
                       />
-                      <Button
-                        onClick={addQuantity(cartProduct)}
-                        variant="subtle"
-                        className={classes.button}
-                      >
+                      <Button onClick={addQuantity(cartProduct)} variant="subtle" className={classes.button}>
                         +
                       </Button>
                     </Box>
@@ -188,16 +176,10 @@ export const CartList: React.FC<CartListProps> = ({
               </Grid.Col>
               <Grid.Col span={2}>
                 <Box className={cx(classes.columnContainer, classes.rightColumnContainer)}>
-                  <Button
-                    onClick={deleteProductFromCart(cartProduct)}
-                    variant="subtle"
-                    className={classes.button}
-                  >
+                  <Button onClick={deleteProductFromCart(cartProduct)} variant="subtle" className={classes.button}>
                     <X />
                   </Button>
-                  <Title order={5}>
-                    {`${product.price * cartProduct.quantity} ${tCommon('currencySuffix')}`}
-                  </Title>
+                  <Title order={5}>{`${product.price * cartProduct.quantity} ${tCommon('currencySuffix')}`}</Title>
                 </Box>
               </Grid.Col>
             </Grid>

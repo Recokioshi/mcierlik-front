@@ -1,10 +1,6 @@
 import React, { SVGAttributes } from 'react';
-import {
-  createStyles, ThemeIcon, Text, Group, Box,
-} from '@mantine/core';
-import {
-  Sun, Phone, MapPin, At,
-} from 'tabler-icons-react';
+import { createStyles, ThemeIcon, Text, Group, Box } from '@mantine/core';
+import { Sun, Phone, MapPin, At } from 'tabler-icons-react';
 import { useTranslation } from 'next-i18next';
 
 type ContactIconVariant = 'white' | 'gradient';
@@ -25,8 +21,8 @@ const useStyles = createStyles((theme, { variant }: ContactIconStyles) => ({
     backgroundImage:
       variant === 'gradient'
         ? `linear-gradient(135deg, ${theme.colors[theme.primaryColor][4]} 0%, ${
-          theme.colors[theme.primaryColor][6]
-        } 100%)`
+            theme.colors[theme.primaryColor][6]
+          } 100%)`
         : 'none',
     backgroundColor: 'transparent',
   },
@@ -43,7 +39,7 @@ const useStyles = createStyles((theme, { variant }: ContactIconStyles) => ({
 type IconProps = SVGAttributes<SVGElement> & {
   color?: string;
   size?: string | number;
-}
+};
 interface ContactIconProps extends Omit<React.ComponentPropsWithoutRef<'div'>, 'title'> {
   icon: React.FC<IconProps>;
   title: React.ReactNode;
@@ -51,14 +47,7 @@ interface ContactIconProps extends Omit<React.ComponentPropsWithoutRef<'div'>, '
   variant?: ContactIconVariant;
 }
 
-function ContactIcon({
-  icon: Icon,
-  title,
-  description,
-  variant = 'gradient',
-  className,
-  ...others
-}: ContactIconProps) {
+function ContactIcon({ icon: Icon, title, description, variant = 'gradient', className, ...others }: ContactIconProps) {
   const { classes, cx } = useStyles({ variant });
   return (
     <div className={cx(classes.wrapper, className)} {...others}>
@@ -96,11 +85,8 @@ const MOCKDATA = [
 
 export function ContactIconsList({ data = MOCKDATA, variant }: ContactIconsListProps) {
   const { t } = useTranslation('contact');
-  const items = data.map(({ title, ...rest }, index) => <ContactIcon
-      key={index}
-      variant={variant}
-      title={t(`leftSection.${title}`)}
-      {...rest}
-    />);
+  const items = data.map(({ title, ...rest }, index) => (
+    <ContactIcon key={index} variant={variant} title={t(`leftSection.${title}`)} {...rest} />
+  ));
   return <Group direction="column">{items}</Group>;
 }

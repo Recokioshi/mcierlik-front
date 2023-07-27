@@ -1,7 +1,5 @@
 import Link from 'next/link';
-import {
-  ActionIcon, Box, createStyles, Badge,
-} from '@mantine/core';
+import { ActionIcon, Box, createStyles, Badge } from '@mantine/core';
 import { ShoppingCart } from 'tabler-icons-react';
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
@@ -41,23 +39,26 @@ export const Cart: React.FC<CartProps> = ({ active }) => {
   const { classes, cx } = useStyles();
   const products = useSelector(selectProducts);
 
-  const itemsCount = useMemo(() => Object.keys(products).reduce((sum, productId) => {
-    const product = products[productId];
-    return sum + product.quantity;
-  }, 0), [products]);
+  const itemsCount = useMemo(
+    () =>
+      Object.keys(products).reduce((sum, productId) => {
+        const product = products[productId];
+        return sum + product.quantity;
+      }, 0),
+    [products],
+  );
 
-  const BadgeIcon = useMemo(() => () => (
-    <>
-      {(itemsCount && <Badge className={classes.badge}>{itemsCount}</Badge>) || null}
-    </>
-  ), [classes.badge, itemsCount]);
+  const BadgeIcon = useMemo(
+    () => () => <>{(itemsCount && <Badge className={classes.badge}>{itemsCount}</Badge>) || null}</>,
+    [classes.badge, itemsCount],
+  );
 
   return (
-  <Link href="/cart" passHref>
-    <ActionIcon<'a'> size="lg" component="a" className={cx(classes.actionIcon, { [classes.linkActive]: active })}>
-      <BadgeIcon />
-      <Box component={ShoppingCart} size={18} />
-    </ActionIcon>
-  </Link>
+    <Link href="/cart" passHref>
+      <ActionIcon<'a'> size="lg" component="a" className={cx(classes.actionIcon, { [classes.linkActive]: active })}>
+        <BadgeIcon />
+        <Box component={ShoppingCart} size={18} />
+      </ActionIcon>
+    </Link>
   );
 };

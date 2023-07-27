@@ -18,13 +18,7 @@ export function Footer({ footerHeight }: { footerHeight: number }) {
   return (
     <FooterWrapper height={footerHeight} p="md" fixed>
       <Container className={classes.inner}>
-        <Image
-          className="h-8 w-auto sm:h-10"
-          src={logo}
-          alt="logo"
-          width={32}
-          height={32}
-        />
+        <Image className="h-8 w-auto sm:h-10" src={logo} alt="logo" width={32} height={32} />
         <SocialMediaLinks />
       </Container>
     </FooterWrapper>
