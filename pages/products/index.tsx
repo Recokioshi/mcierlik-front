@@ -64,9 +64,7 @@ export function ArticleCard({
     <Card withBorder radius="md" className={cx(classes.card, className)} {...others}>
       <Card.Section>
         <Link href={link} passHref>
-          <a>
-            <StrapiPhoto photo={photo} height={512} width={512} />
-          </a>
+          <StrapiPhoto photo={photo} height={512} width={512} />
         </Link>
       </Card.Section>
 

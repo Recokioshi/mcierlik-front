@@ -18,11 +18,14 @@ export const StrapiPhoto: React.FC<StrapiPhotoProps> = ({ photo, width, height, 
       alt={photo.caption}
       width={width}
       height={height}
-      objectFit="contain"
       placeholder={thumbnailFormat?.url ? 'blur' : 'empty'}
-      layout={isBackground ? 'fill' : 'responsive'}
-      objectPosition="center"
       blurDataURL={thumbnailFormat?.url}
+      fill={!width || !height}
+      style={{
+        maxWidth: '100%',
+        objectFit: isBackground ? 'scale-down' : 'contain',
+        objectPosition: 'center',
+      }}
     />
   );
 };

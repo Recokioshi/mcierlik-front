@@ -144,9 +144,7 @@ export const CartList: React.FC<CartListProps> = ({ products, setProduct, delete
                 <Box className={classes.columnContainer}>
                   <Box>
                     <Link href={`/products/${product.id}`}>
-                      <a>
-                        <Title order={4}>{product.name}</Title>
-                      </a>
+                      <Title order={4}>{product.name}</Title>
                     </Link>
                     <Text>{product.shortDescription}</Text>
                   </Box>

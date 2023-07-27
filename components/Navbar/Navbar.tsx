@@ -114,11 +114,13 @@ export function Navbar({ links }: HeaderResponsiveProps) {
   const items = useMemo(
     () =>
       links.map((link) => (
-        <Link key={link.label} href={link.link}>
-          <div className={cx(classes.link, { [classes.linkActive]: active === link.link })} onClick={handleClose}>
-            {link.label}
-          </div>
-        </Link>
+        <div
+          key={link.label}
+          className={cx(classes.link, { [classes.linkActive]: active === link.link })}
+          onClick={handleClose}
+        >
+          <Link href={link.link}>{link.label}</Link>
+        </div>
       )),
     [active, classes.link, classes.linkActive, cx, handleClose, links],
   );
@@ -126,7 +128,16 @@ export function Navbar({ links }: HeaderResponsiveProps) {
   return (
     <Header height={HEADER_HEIGHT} className={classes.root}>
       <Container className={classes.header}>
-        <Image className="h-8 w-auto sm:h-10" src={logo} alt="logo" width={48} height={48} />
+        <Image
+          className="h-8 w-auto sm:h-10"
+          src={logo}
+          alt="logo"
+          width={48}
+          height={48}
+          style={{
+            maxWidth: '100%',
+          }}
+        />
         <Group spacing={5} className={classes.links}>
           {items}
         </Group>
