@@ -22,8 +22,11 @@ export function Footer({ footerHeight }: { footerHeight: number }) {
           className="h-8 w-auto sm:h-10"
           src={logo}
           alt="logo"
-          width={32}
           height={32}
+          style={{
+            maxWidth: '100%',
+            width: '32px',
+          }}
         />
         <SocialMediaLinks />
       </Container>

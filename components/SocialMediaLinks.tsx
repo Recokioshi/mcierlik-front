@@ -14,7 +14,7 @@ type SocialMediaLinksProps = {
 export const SocialMediaLinks: React.FC<SocialMediaLinksProps> = ({ className = '', iconClassName = '', ...rest }) => {
   const linksComponents = links.map(({ link, icon }) => (
     <ActionIcon<'a'> size="lg" component="a" href={link} key={link} className={iconClassName}>
-      <Box component={icon} size={18} href={link}/>
+      <Box component={icon} size={18} href={link} />
     </ActionIcon>
   ));
 

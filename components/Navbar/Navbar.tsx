@@ -1,7 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import {
-  Box, Burger, Container, createStyles, Group, Header, Paper, Transition,
-} from '@mantine/core';
+import { Box, Burger, Container, createStyles, Group, Header, Paper, Transition } from '@mantine/core';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -113,20 +111,19 @@ export function Navbar({ links }: HeaderResponsiveProps) {
     toggleOpened(false);
   }, [toggleOpened]);
 
-  const items = useMemo(() => links.map((link) => (
-    <Link
-      key={link.label}
-      href={link.link}
-    >
-      <div
-        className={cx(classes.link, { [classes.linkActive]: active === link.link })}
-        onClick={handleClose}
-      >
-        {link.label}
-      </div>
-
-    </Link>
-  )), [active, classes.link, classes.linkActive, cx, handleClose, links]);
+  const items = useMemo(
+    () =>
+      links.map((link) => (
+        <div
+          key={link.label}
+          className={cx(classes.link, { [classes.linkActive]: active === link.link })}
+          onClick={handleClose}
+        >
+          <Link href={link.link}>{link.label}</Link>
+        </div>
+      )),
+    [active, classes.link, classes.linkActive, cx, handleClose, links],
+  );
 
   return (
     <Header height={HEADER_HEIGHT} className={classes.root}>
@@ -137,20 +134,18 @@ export function Navbar({ links }: HeaderResponsiveProps) {
           alt="logo"
           width={48}
           height={48}
+          style={{
+            maxWidth: '100%',
+          }}
         />
         <Group spacing={5} className={classes.links}>
           {items}
         </Group>
 
-        <Box className={classes.mobileWrapper} >
-          <Cart active={active === LINKS.CART}/>
+        <Box className={classes.mobileWrapper}>
+          <Cart active={active === LINKS.CART} />
           <LanguagePicker />
-          <Burger
-            opened={opened}
-            onClick={toggle}
-            className={classes.burger}
-            size="sm"
-          />
+          <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" />
         </Box>
 
         <Transition transition="pop-top-right" duration={50} mounted={opened}>

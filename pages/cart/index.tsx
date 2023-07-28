@@ -6,23 +6,25 @@ import { useCallback } from 'react';
 import { getProducts } from '../../utils/api/products';
 import { CartList } from '../../components/Cart/CartList';
 import { CartProduct, Product } from '../../utils/api/types/cms';
-import {
-  clearProducts,
-  deleteProduct,
-  setProduct,
-} from '../../store/cartSlice';
+import { clearProducts, deleteProduct, setProduct } from '../../store/cartSlice';
 import { CartSummary } from '../../components/Cart/CartSummary';
 
-const Cart = ({ products }: { products: Product[]}) => {
+const Cart = ({ products }: { products: Product[] }) => {
   const dispatch = useDispatch();
 
-  const handleSetProduct = useCallback((product: CartProduct) => {
-    dispatch(setProduct(product));
-  }, [dispatch]);
+  const handleSetProduct = useCallback(
+    (product: CartProduct) => {
+      dispatch(setProduct(product));
+    },
+    [dispatch],
+  );
 
-  const handleDeleteProduct = useCallback((product: CartProduct) => {
-    dispatch(deleteProduct(product));
-  }, [dispatch]);
+  const handleDeleteProduct = useCallback(
+    (product: CartProduct) => {
+      dispatch(deleteProduct(product));
+    },
+    [dispatch],
+  );
 
   const handleClearProducts = useCallback(() => {
     dispatch(clearProducts(null));
@@ -52,7 +54,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
       products,
-      ...await serverSideTranslations(locale || '', ['common', 'navigation', 'cart']),
+      ...(await serverSideTranslations(locale || '', ['common', 'navigation', 'cart'])),
     },
   };
 };

@@ -1,21 +1,29 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "prettier"],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
     "next/core-web-vitals",
     "airbnb-base",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
   ],
   "rules": {
+    "prettier/prettier": [
+      "error"
+    ],
     "import/extensions": "off",
     "@typescript-eslint/no-unused-vars": "error",
     "import/prefer-default-export": "off",
     "no-plusplus": "off",
     "implicit-arrow-linebreak": "off",
     "react/display-name": "off",
-    "react/jsx-no-bind": "error"
+    "react/jsx-no-bind": "error",
+    "no-param-reassign": "off",
+    "no-console": "off",
+    "import/no-cycle": "off",
+    "max-len": ["error", { "code": 120, "ignoreComments": true, "ignoreStrings": true, "ignoreTemplateLiterals": true, "ignoreRegExpLiterals": true }]
   }
 }
 

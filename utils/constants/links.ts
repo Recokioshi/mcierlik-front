@@ -4,5 +4,6 @@ export const LINKS = {
   CONTACT: '/contact',
   PRODUCTS: '/products',
   CART: '/cart',
+  CHECKOUT: '/checkout',
+  CHECKOUT_SUMMARY: '/checkout/summary',
 };
-  

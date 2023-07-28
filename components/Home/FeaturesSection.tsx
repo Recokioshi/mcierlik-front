@@ -1,8 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'next-i18next';
-import {
-  createStyles, Text, SimpleGrid, Container,
-} from '@mantine/core';
+import { createStyles, Text, SimpleGrid, Container } from '@mantine/core';
 import { Truck, Certificate, Coin } from 'tabler-icons-react';
 
 const useStyles = createStyles((theme) => ({
@@ -45,9 +43,7 @@ interface FeatureProps extends React.ComponentPropsWithoutRef<'div'> {
   description: string;
 }
 
-function Feature({
-  icon: Icon, title, description, className, ...others
-}: FeatureProps) {
+function Feature({ icon: Icon, title, description, className, ...others }: FeatureProps) {
   const { classes, cx } = useStyles();
 
   return (
@@ -84,12 +80,14 @@ const mockdata = [
 
 export function FeaturesSection() {
   const { t } = useTranslation('home');
-  const items = mockdata.map(({ icon, title }) => <Feature
+  const items = mockdata.map(({ icon, title }) => (
+    <Feature
       icon={icon}
       key={title}
       title={t(`featurePoints.${title}.header`)}
       description={t(`featurePoints.${title}.subTitle`)}
-    />);
+    />
+  ));
 
   return (
     <Container mt={30} mb={30} size="lg">

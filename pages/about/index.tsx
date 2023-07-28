@@ -1,13 +1,9 @@
 import { GetStaticProps } from 'next';
 import { TFunction, useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import {
-  Text, Container, Title, SimpleGrid, createStyles,
-} from '@mantine/core';
+import { Text, Container, Title, SimpleGrid, createStyles } from '@mantine/core';
 import { useMemo } from 'react';
-import {
-  BuildingWarehouse, ClockOff, Users, BuildingStore,
-} from 'tabler-icons-react';
+import { BuildingWarehouse, ClockOff, Users, BuildingStore } from 'tabler-icons-react';
 
 const nodes = {
   first: BuildingWarehouse,
@@ -127,7 +123,7 @@ export function About() {
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: {
-    ...await serverSideTranslations(locale || '', ['navigation', 'about']),
+    ...(await serverSideTranslations(locale || '', ['navigation', 'about'])),
   },
 });
 

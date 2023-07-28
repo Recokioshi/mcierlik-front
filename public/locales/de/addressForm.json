@@ -1,0 +1,45 @@
+{
+  "customerHeader": "Kunde",
+  "addressHeader": "Adresse",
+  "description": "Geben Sie Ihre Kontaktdaten für den Versand an.",
+  "form": {
+    "firstName": {
+      "label": "Vorname",
+      "placeholder": "Vorname"
+    },
+    "lastName": {
+      "label": "Nachname",
+      "placeholder": "Nachname"
+    },
+    "email": {
+      "label": "E-Mail",
+      "placeholder": "E-Mail"
+    },
+    "phone": {
+      "label": "Telefon",
+      "placeholder": "Telefon"
+    },
+    "street": {
+      "label": "Straße",
+      "placeholder": "Straße",
+      "description": "Bitte geben Sie Ihre Straßenadresse an."
+    },
+    "city": {
+      "label": "Stadt",
+      "placeholder": "Stadt"
+    },
+    "state": {
+      "label": "Bundesland",
+      "placeholder": "Bundesland"
+    },
+    "zip": {
+      "label": "Postleitzahl",
+      "placeholder": "Postleitzahl"
+    },
+    "country": {
+      "label": "Land",
+      "placeholder": "Land"
+    },
+    "submit": "Weiter"
+  }
+}

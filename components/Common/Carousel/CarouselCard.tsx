@@ -1,7 +1,5 @@
 import React, { useCallback } from 'react';
-import {
-  Card, Text, createStyles, Box,
-} from '@mantine/core';
+import { Card, Text, createStyles, Box } from '@mantine/core';
 import Link from 'next/link';
 import { Photo } from '../../../utils/api/types/cms';
 import { StrapiPhoto } from '../StrapiPhoto';
@@ -79,9 +77,7 @@ export interface CarouselCardProps {
   description?: string;
 }
 
-export function CarouselCard({
-  photo, title, link, onClick, id, description,
-}: CarouselCardProps) {
+export function CarouselCard({ photo, title, link, onClick, id, description }: CarouselCardProps) {
   const { classes } = useStyles();
 
   const handleClick = useCallback(() => {
@@ -91,29 +87,29 @@ export function CarouselCard({
   }, [id, onClick]);
 
   const CardContent = (
-    <Card
-        p="lg"
-        shadow="sm"
-        className={classes.card}
-        radius="md"
-        onClick={handleClick}
-      >
-        <StrapiPhoto photo={photo} isBackground />
-        {title && <div className={classes.overlay} />}
+    <Card p="lg" shadow="sm" className={classes.card} radius="md" onClick={handleClick}>
+      <StrapiPhoto photo={photo} isBackground />
+      {title && <div className={classes.overlay} />}
 
-        {(title || description) && <div className={classes.content}>
-          {title && <div>
-            <Text size="lg" className={classes.title} weight={500}>
-              {title}
-            </Text>
-          </div>}
-          {description && <div>
-            <Text size="xs" className={classes.title} weight={500}>
-              {description}
-            </Text>
-          </div>}
-        </div>}
-      </Card>
+      {(title || description) && (
+        <div className={classes.content}>
+          {title && (
+            <div>
+              <Text size="lg" className={classes.title} weight={500}>
+                {title}
+              </Text>
+            </div>
+          )}
+          {description && (
+            <div>
+              <Text size="xs" className={classes.title} weight={500}>
+                {description}
+              </Text>
+            </div>
+          )}
+        </div>
+      )}
+    </Card>
   );
 
   return link ? (
