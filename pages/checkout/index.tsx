@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { Container } from '@mantine/core';
+import { useTranslation } from 'next-i18next';
 import { CartState, selectCart, setAddress, setCustomer } from '../../store/cartSlice';
 import { LINKS } from '../../utils/constants/links';
 import { AddressForm } from '../../components/Checkout/AddressForm';
@@ -17,6 +19,7 @@ const Checkout: React.FC<CheckoutProps> = () => {
   const [pageLoaded, setPageLoaded] = React.useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
+  const { t } = useTranslation('orderSummary');
 
   useEffect(() => {
     if (pageLoaded && cartIsEmpty(cart)) {
@@ -44,21 +47,22 @@ const Checkout: React.FC<CheckoutProps> = () => {
           phone: address.phone,
         }),
       );
+      router.push(LINKS.CHECKOUT_SUMMARY);
     },
-    [dispatch],
+    [dispatch, router],
   );
 
   return (
-    <div>
-      <h1>Checkout</h1>
+    <Container>
+      <h1>{t('checkoutHeader')}</h1>
       <AddressForm onSubmit={handleSetAddress} />
-    </div>
+    </Container>
   );
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: {
-    ...(await serverSideTranslations(locale || '', ['navigation', 'addressForm'])),
+    ...(await serverSideTranslations(locale || '', ['navigation', 'addressForm', 'orderSummary'])),
   },
 });
 

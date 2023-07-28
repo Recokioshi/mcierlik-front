@@ -19,6 +19,7 @@ import { X, ShoppingCartOff } from 'tabler-icons-react';
 import { selectCart } from '../../store/cartSlice';
 import { StrapiPhoto } from '../Common/StrapiPhoto';
 import { CartProduct, Product } from '../../utils/api/types/cms';
+import { getProductsFromCartWithData } from './utils';
 
 const useStyles = createStyles((theme) => ({
   spaceFlex: {
@@ -78,15 +79,10 @@ export const CartList: React.FC<CartListProps> = ({ products, setProduct, delete
   const cart = useSelector(selectCart);
 
   const productsFromCart = useMemo(
-    () =>
-      Object.keys(cart.products)
-        .map((productKey) => ({
-          ...cart.products[productKey],
-          product: products.find((product) => product.id === cart.products[productKey].id),
-        }))
-        .filter((product) => product.product !== undefined) as (CartProduct & { product: Product })[],
+    () => getProductsFromCartWithData(cart.products, products),
     [cart.products, products],
   );
+
   const itemsCount = useMemo(
     () =>
       Object.keys(cart.products).reduce((sum, productKey) => {

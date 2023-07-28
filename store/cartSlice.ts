@@ -54,6 +54,7 @@ export const cartSlice = createSlice({
     setCart: (state, action) => {
       state.address = action.payload.address;
       state.products = action.payload.products;
+      state.customer = action.payload.customer;
       state.address = action.payload.address;
       state.shipping = action.payload.shipping;
     },

@@ -55,7 +55,7 @@ export const Cart: React.FC<CartProps> = ({ active }) => {
 
   return (
     <Link href="/cart" passHref>
-      <ActionIcon<'a'> size="lg" component="a" className={cx(classes.actionIcon, { [classes.linkActive]: active })}>
+      <ActionIcon<'div'> size="lg" component="div" className={cx(classes.actionIcon, { [classes.linkActive]: active })}>
         <BadgeIcon />
         <Box component={ShoppingCart} size={18} />
       </ActionIcon>

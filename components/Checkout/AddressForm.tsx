@@ -1,16 +1,5 @@
 import React from 'react';
-import {
-  Box,
-  Button,
-  Container,
-  createStyles,
-  Divider,
-  Grid,
-  SimpleGrid,
-  Space,
-  TextInput,
-  Title,
-} from '@mantine/core';
+import { Box, Button, createStyles, Divider, Grid, SimpleGrid, Space, TextInput, Title } from '@mantine/core';
 import { useTranslation } from 'next-i18next';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -74,15 +63,18 @@ const addressFormSchema = z.object({
 type AddressFormValues = z.infer<typeof addressFormSchema>;
 
 type AddressFormProps = {
-  onSubmit: (formData: CartState['address'] & CartState['customer']) => void;
+  readonly?: boolean;
+  onSubmit?: (formData: CartState['address'] & CartState['customer']) => void;
 };
 
-export const AddressForm: React.FC<AddressFormProps> = ({ onSubmit }) => {
+export const AddressForm: React.FC<AddressFormProps> = ({ onSubmit, readonly }) => {
   const { classes } = useStyles();
   const { t } = useTranslation('addressForm');
 
   const customer = useSelector(selectCustomer);
   const address = useSelector(selectAddress);
+
+  const disableForm = readonly;
 
   const { register, handleSubmit } = useForm<AddressFormValues>({
     resolver: zodResolver(addressFormSchema),
@@ -90,82 +82,98 @@ export const AddressForm: React.FC<AddressFormProps> = ({ onSubmit }) => {
   });
 
   return (
-    <Container>
-      <SimpleGrid cols={1}>
-        <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
-          <Box className={classes.spaceFlex}>
-            <Title order={3}>{`${t('customerHeader')}`}</Title>
-          </Box>
-          <TextInput
-            {...register('firstName')}
-            label={`${t('form.firstName.label')}`}
-            placeholder={`${t('form.firstName.placeholder')}`}
-            classNames={classes}
-          />
-          <TextInput
-            {...register('lastName')}
-            label={`${t('form.lastName.label')}`}
-            placeholder={`${t('form.lastName.placeholder')}`}
-            classNames={classes}
-          />
-          <TextInput
-            {...register('email')}
-            label={`${t('form.email.label')}`}
-            placeholder={`${t('form.email.placeholder')}`}
-            classNames={classes}
-          />
-          <TextInput
-            {...register('phone')}
-            label={`${t('form.phone.label')}`}
-            placeholder={`${t('form.phone.placeholder')}`}
-            classNames={classes}
-          />
-          <Divider />
-          <Box className={classes.spaceFlex}>
-            <Title order={3}>{`${t('addressHeader')}`}</Title>
-          </Box>
-          <TextInput
-            {...register('street')}
-            label={`${t('form.street.label')}`}
-            placeholder={`${t('form.street.placeholder')}`}
-            classNames={classes}
-          />
-          <TextInput
-            {...register('state')}
-            label={`${t('form.state.label')}`}
-            placeholder={`${t('form.state.placeholder')}`}
-            classNames={classes}
-          />
-          <Grid>
-            <Grid.Col span={4}>
-              <TextInput
-                {...register('zip')}
-                label={`${t('form.zip.label')}`}
-                placeholder={`${t('form.zip.placeholder')}`}
-                classNames={classes}
-              />
-            </Grid.Col>
-            <Grid.Col span={8}>
-              <TextInput
-                {...register('city')}
-                label={`${t('form.city.label')}`}
-                placeholder={`${t('form.city.placeholder')}`}
-                classNames={classes}
-              />
-            </Grid.Col>
-          </Grid>
-          <TextInput
-            {...register('country')}
-            label={`${t('form.country.label')}`}
-            placeholder={`${t('form.country.placeholder')}`}
-            classNames={classes}
-          />
-          <Button type="submit" variant="light" color="blue" radius="md" styles={{ root: { marginLeft: 'auto' } }}>
+    <SimpleGrid cols={1}>
+      <form onSubmit={onSubmit && handleSubmit(onSubmit)} className={classes.form}>
+        <Box className={classes.spaceFlex}>
+          <Title order={3}>{`${t('customerHeader')}`}</Title>
+        </Box>
+        <TextInput
+          {...register('firstName')}
+          label={`${t('form.firstName.label')}`}
+          placeholder={`${t('form.firstName.placeholder')}`}
+          classNames={classes}
+          disabled={disableForm}
+        />
+        <TextInput
+          {...register('lastName')}
+          label={`${t('form.lastName.label')}`}
+          placeholder={`${t('form.lastName.placeholder')}`}
+          classNames={classes}
+          disabled={disableForm}
+        />
+        <TextInput
+          {...register('email')}
+          label={`${t('form.email.label')}`}
+          placeholder={`${t('form.email.placeholder')}`}
+          classNames={classes}
+          disabled={disableForm}
+        />
+        <TextInput
+          {...register('phone')}
+          label={`${t('form.phone.label')}`}
+          placeholder={`${t('form.phone.placeholder')}`}
+          classNames={classes}
+          disabled={disableForm}
+        />
+        <Divider />
+        <Box className={classes.spaceFlex}>
+          <Title order={3}>{`${t('addressHeader')}`}</Title>
+        </Box>
+        <TextInput
+          {...register('street')}
+          label={`${t('form.street.label')}`}
+          placeholder={`${t('form.street.placeholder')}`}
+          classNames={classes}
+          disabled={disableForm}
+        />
+        <TextInput
+          {...register('state')}
+          label={`${t('form.state.label')}`}
+          placeholder={`${t('form.state.placeholder')}`}
+          classNames={classes}
+          disabled={disableForm}
+        />
+        <Grid>
+          <Grid.Col span={4}>
+            <TextInput
+              {...register('zip')}
+              label={`${t('form.zip.label')}`}
+              placeholder={`${t('form.zip.placeholder')}`}
+              classNames={classes}
+              disabled={disableForm}
+            />
+          </Grid.Col>
+          <Grid.Col span={8}>
+            <TextInput
+              {...register('city')}
+              label={`${t('form.city.label')}`}
+              placeholder={`${t('form.city.placeholder')}`}
+              classNames={classes}
+              disabled={disableForm}
+            />
+          </Grid.Col>
+        </Grid>
+        <TextInput
+          {...register('country')}
+          label={`${t('form.country.label')}`}
+          placeholder={`${t('form.country.placeholder')}`}
+          classNames={classes}
+          disabled={disableForm}
+        />
+        {onSubmit && (
+          <Button
+            type="submit"
+            variant="light"
+            color="blue"
+            radius="md"
+            styles={{ root: { marginLeft: 'auto' } }}
+            disabled={disableForm}
+          >
             {`${t('form.submit')}`}
           </Button>
-          <Space h="sm" />
-        </form>
-      </SimpleGrid>
-    </Container>
+        )}
+        <Space h="sm" />
+      </form>
+    </SimpleGrid>
   );
 };
